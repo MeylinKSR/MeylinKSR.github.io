@@ -19,233 +19,210 @@
     '<line x1="20" y1="20" x2="20" y2="4"/><line x1="20" y1="20" x2="34" y2="13"/><line x1="20" y1="20" x2="30" y2="33"/><line x1="20" y1="20" x2="9" y2="32"/><line x1="20" y1="20" x2="5" y2="15"/></g>' +
     '<circle cx="20" cy="20" r="4" fill="var(--coral)"/></svg>';
 
-  /* ---------- Experiencia (texto real del CV) ---------- */
+  /* ---------- Experiencia ---------- */
   var JOBS = [
     {
-      co: "Cloud Worldwide Services",
-      role: "Ingeniera de Producto · prácticas",
-      when: "oct. 2025 – feb. 2026",
-      short:
-        "Construí dashboards en Power BI, con medidas DAX, para seguir el uso de productos de inteligencia artificial, análisis de voz y biometría: dónde caía el uso y cómo era la actividad de cada empresa. Los dashboards son internos y no se pueden compartir.",
-      long: [
-        "Cloud Worldwide Services desarrolla productos de inteligencia artificial, análisis de voz y biometría. Allí construí dashboards en Power BI, con medidas DAX, para seguir indicadores de uso y de negocio, entre ellos la detección de caídas de uso y la actividad de cada empresa.",
-        "También seguí funcionalidades, tareas e hitos en Azure DevOps, participé en la documentación funcional y de producto, en el análisis de requisitos y en las pruebas funcionales y de calidad, y coordiné información entre equipos.",
-        "Los dashboards son internos de la empresa, así que no aparecen en esta web.",
+      co: "Cloud Worldwide Services", role: "Ingeniera de Producto · prácticas", when: "oct. 2025 – feb. 2026",
+      tags: ["Power BI", "DAX", "Azure DevOps", "QA"],
+      short: "Dashboards en Power BI para seguir el uso de productos de IA, voz y biometría.",
+      more: [
+        "Medidas DAX para detectar caídas de uso y ver la actividad de cada empresa.",
+        "Seguimiento de funcionalidades e hitos en Azure DevOps.",
+        "Documentación funcional, análisis de requisitos y pruebas de calidad.",
+        "Los dashboards son internos, por eso no aparecen aquí.",
       ],
     },
     {
-      co: "PinkStone Advertisement Group",
-      role: "Marketing Digital · formación dual",
-      when: "jul. 2021 – may. 2022",
-      short:
-        "Seguí entre 5 y 10 campañas de Google Ads y Meta Ads a la vez para clientes de restauración, calzado y eventos deportivos, y preparé los informes de resultados con Google Analytics y Excel.",
-      long: [
-        "En esta agencia seguí entre 5 y 10 campañas de Google Ads y Meta Ads a la vez, para clientes de restauración, calzado y eventos deportivos, dentro de la estrategia que definía el equipo.",
-        "Apoyé la gestión de cuentas de pequeños clientes de hostelería, moda y comercio, analicé los resultados con Google Analytics y Excel para preparar informes, y redacté contenidos optimizados para SEO en WordPress.",
+      co: "PinkStone Advertisement Group", role: "Marketing Digital · formación dual", when: "jul. 2021 – may. 2022",
+      tags: ["Google Ads", "Meta Ads", "Google Analytics", "SEO"],
+      short: "Entre 5 y 10 campañas de Google Ads y Meta Ads a la vez para pequeños negocios.",
+      more: [
+        "Clientes de restauración, calzado, moda y eventos deportivos.",
+        "Informes de resultados con Google Analytics y Excel.",
+        "Contenidos SEO en WordPress.",
       ],
     },
   ];
 
-  function jobs(full) {
+  function chips(list, cls) {
+    return '<ul class="chips' + (cls ? " " + cls : "") + '">' + list.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
+  }
+
+  function jobs() {
     return (
-      '<div class="jobs">' +
+      '<div class="xjobs">' +
       JOBS.map(function (j) {
         return (
-          '<article class="job reveal"><header class="job__head"><h3>' + j.co + "</h3>" +
-          '<p class="job__role">' + j.role + '</p><p class="job__when">' + j.when + "</p></header>" +
-          '<div class="job__txt">' + (full ? j.long : [j.short]).map(function (t) { return "<p>" + t + "</p>"; }).join("") + "</div></article>"
+          '<details class="xjob reveal"><summary>' +
+          '<span class="xjob__when">' + j.when + "</span>" +
+          '<span class="xjob__main"><b>' + j.co + "</b><span>" + j.role + "</span></span>" +
+          '<span class="xjob__short">' + j.short + "</span>" +
+          '<span class="xjob__plus" aria-hidden="true"></span></summary>' +
+          '<div class="xjob__body"><ul>' + j.more.map(function (t) { return "<li>" + t + "</li>"; }).join("") + "</ul>" + chips(j.tags) + "</div>" +
+          "</details>"
         );
       }).join("") +
       "</div>"
     );
   }
 
-  /* ---------- Captura anotada (Conexia) ---------- */
+  /* ---------- Captura anotada (Conexia): los puntos se abren al pasar o pulsar ---------- */
   function annotated(p) {
     return (
-      '<figure class="anno">' +
+      '<figure class="anno anno--live">' +
       '<div class="anno__shot"><img src="' + p.cover + '" alt="' + esc(p.coverAlt) + '">' +
       p.notes.map(function (n, i) {
-        return '<span class="anno__pin" style="left:' + n.x + "%;top:" + n.y + '%" aria-hidden="true">' + (i + 1) + "</span>";
+        var side = n.x > 60 ? " anno__pin--left" : "";
+        return '<button type="button" class="anno__pin' + side + '" style="left:' + n.x + "%;top:" + n.y + '%" aria-label="' + esc(n.t) + '">' + (i + 1) +
+          '<span class="anno__tip"><b>' + esc(n.t) + "</b>" + esc(n.d) + "</span></button>";
       }).join("") +
       "</div>" +
-      '<figcaption><ol class="anno__list">' +
-      p.notes.map(function (n) { return "<li><b>" + esc(n.t) + "</b><span>" + esc(n.d) + "</span></li>"; }).join("") +
-      "</ol></figcaption></figure>"
+      '<figcaption class="anno__hint">Pasa el cursor o toca los puntos para ver cada decisión.</figcaption></figure>'
     );
   }
 
-  function facts(p) {
+  function stats(p) {
+    return '<div class="stats">' + p.facts.map(function (f) {
+      return '<div class="stat"><b data-count="' + esc(f[0]) + '">' + esc(f[0]) + "</b><span>" + esc(f[1]) + "</span></div>";
+    }).join("") + "</div>";
+  }
+
+  /* ---------- Tarjetas de proyecto ---------- */
+  function card(p) {
+    var play = p.embed || p.demo;
     return (
-      '<dl class="facts">' +
-      p.facts.map(function (f) { return '<div class="facts__row"><dt>' + esc(f[0]) + "</dt><dd>" + esc(f[1]) + "</dd></div>"; }).join("") +
-      "</dl>"
+      '<article class="pcard reveal" data-disc="' + esc(p.discipline) + '">' +
+      '<a class="pcard__media' + (p.coverFit === "contain" ? " pcard__media--contain" : "") + '" href="#p-' + p.slug + '" tabindex="-1" aria-hidden="true">' +
+      '<img src="' + p.cover + '" alt="" loading="lazy">' +
+      '<span class="pcard__over">' + esc(p.summary) + "</span></a>" +
+      '<div class="pcard__body">' +
+      '<span class="pcard__tag">' + esc(p.discipline) + "</span>" +
+      '<h3 class="pcard__t"><a href="#p-' + p.slug + '">' + esc(p.title) + "</a></h3>" +
+      '<p class="pcard__k">' + esc(p.kicker) + "</p>" +
+      '<div class="pcard__acts">' +
+      (play
+        ? '<button class="btn btn--small" type="button" data-play="' + p.slug + '"><span aria-hidden="true">▶</span> ' + (p.embed ? "Ver informe" : "Probar") + "</button>"
+        : '<span class="pcard__soon">Demo próximamente</span>') +
+      '<a class="pcard__more" href="#p-' + p.slug + '">Ver caso ' + ARROW + "</a></div>" +
+      "</div></article>"
     );
   }
 
-  /* ---------- Filas de proyecto (galería secundaria y página Proyectos) ---------- */
-  function row(p) {
+  function filters() {
+    var discs = [];
+    P.forEach(function (p) { if (discs.indexOf(p.discipline) < 0) discs.push(p.discipline); });
     return (
-      '<a class="prow reveal" href="#p-' + p.slug + '" data-disc="' + esc(p.discipline) + '">' +
-      '<span class="prow__title">' + esc(p.title) + "</span>" +
-      '<span class="prow__txt"><span class="prow__kicker">' + esc(p.kicker) + (p.year ? " · " + esc(p.year) : "") + "</span>" +
-      '<span class="prow__sum">' + esc(p.summary) + "</span></span>" +
-      '<span class="prow__thumb' + (p.coverFit === "contain" ? " prow__thumb--contain" : "") + '"><img src="' + p.cover + '" alt="" loading="lazy"></span>' +
-      '<span class="prow__go" aria-hidden="true">→</span></a>'
+      '<div class="filters" role="group" aria-label="Filtrar por disciplina">' +
+      '<button class="filter" type="button" data-f="" aria-pressed="true">Todos</button>' +
+      discs.map(function (d) { return '<button class="filter" type="button" data-f="' + esc(d) + '" aria-pressed="false">' + esc(d) + "</button>"; }).join("") +
+      "</div>"
     );
+  }
+
+  function grid() {
+    return filters() + '<div class="pgrid" id="allRows">' + P.map(card).join("") + "</div>";
   }
 
   /* ---------- Vistas ---------- */
   function viewHome() {
-    var sp = bySlug("spotify-tendencias"), cx = bySlug("conexia");
-    var rest = P.filter(function (p) { return !p.featured; });
     return (
       '<div class="view">' +
-      /* Presentación */
-      '<section class="intro"><div class="wrap intro__grid">' +
-      '<div class="intro__main">' +
-      '<p class="eyebrow">Selección de trabajo</p>' +
-      '<h1 class="intro__name">Meylin<br>Soto Reyes</h1>' +
-      '<p class="intro__role">' + MARK + "Analítica de producto y marketing digital</p>" +
-      '<div class="intro__bio"><p>He hecho dashboards en Power BI para seguir el uso de productos de inteligencia artificial y he analizado campañas de Google Ads y Meta Ads. Empecé en marketing digital, en una agencia, y después pasé a producto.</p>' +
-      "<p>Estudio Ciencia, Gestión e Ingeniería de Servicios en la Universidad Rey Juan Carlos. Vivo en Madrid.</p></div>" +
+      '<section class="hero"><div class="wrap hero__grid">' +
+      '<div class="hero__main">' +
+      '<p class="eyebrow">Portfolio · Madrid</p>' +
+      '<h1 class="hero__name">Meylin<br>Soto Reyes<span class="dot">.</span></h1>' +
+      '<p class="hero__role">' + MARK + '<span>Analítica de <span class="rotator" id="rot">producto</span></span></p>' +
+      '<p class="hero__bio">De las campañas al producto: datos en Power BI, procesos y prototipos.</p>' +
+      '<div class="actions"><a class="btn" href="#trabajo" data-scroll="trabajo">Ver proyectos <span class="arr" aria-hidden="true">↓</span></a>' +
+      '<a class="btn btn--ghost" href="#contacto">Contacto</a></div>' +
       "</div>" +
-      '<nav class="intro__index" aria-label="Proyectos de esta selección"><p class="intro__index-t">En esta selección</p><ul>' +
-      P.map(function (p) {
-        return '<li><a href="#p-' + p.slug + '"><span>' + esc(p.title) + '</span><small>' + esc(p.discipline) + "</small></a></li>";
-      }).join("") +
-      '</ul><p class="intro__facts">Power BI · DAX · Google Analytics · Google Ads · Meta Ads · SQL básico<br>Español nativo · Inglés B2</p></nav>' +
+      '<div class="hero__side">' +
+      '<div class="hstat"><b data-count="' + P.length + '">' + P.length + '</b><span>proyectos</span></div>' +
+      '<div class="hstat"><b data-count="' + P.filter(function (p) { return p.embed || p.demo; }).length + '">' + P.filter(function (p) { return p.embed || p.demo; }).length + '</b><span>demos interactivas</span></div>' +
+      '<div class="hstat"><b data-count="2">2</b><span>prácticas</span></div>' +
+      chips(["Power BI", "DAX", "Google Analytics", "Google Ads", "Meta Ads", "SQL", "BPMN", "Figma", "Kotlin"], "chips--hero") +
+      "</div></div></section>" +
+
+      '<section class="section section--tight" id="trabajo"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Proyectos</h2><p class="shead__note">Pulsa <b>▶</b> para probarlos sin salir de la página.</p></div>' +
+      grid() +
       "</div></section>" +
 
-      /* Spotify: parte de una pregunta */
-      '<section class="feat feat--spotify"><div class="wrap feat__grid">' +
-      '<div class="feat__copy">' +
-      '<p class="eyebrow">' + esc(sp.kicker) + "</p>" +
-      '<p class="q-label">' + esc(sp.lead.label) + "</p>" +
-      '<h2 class="q">' + esc(sp.lead.text) + "</h2>" +
-      '<p class="feat__sum">' + esc(sp.summary) + "</p>" + facts(sp) +
-      '<div class="actions"><a class="btn" href="#p-spotify-tendencias">Ver el caso ' + ARROW + "</a>" +
-      '<a class="btn btn--ghost" href="' + esc(sp.embed) + '" target="_blank" rel="noopener">Abrir el informe ' + EXT + "</a></div>" +
-      "</div>" +
-      '<a class="feat__visual" href="#p-spotify-tendencias" aria-label="Ver el caso de Spotify"><img src="' + sp.cover + '" alt="' + esc(sp.coverAlt) + '"><span class="feat__tag">Informe en vivo en el caso</span></a>' +
-      "</div></section>" +
-
-      /* Conexia: parte de una decisión */
-      '<section class="feat feat--conexia"><div class="wrap">' +
-      '<div class="feat__top"><div><p class="eyebrow eyebrow--light">' + esc(cx.title) + " · " + esc(cx.kicker) + "</p>" +
-      '<p class="q-label q-label--light">' + esc(cx.lead.label) + "</p>" +
-      '<h2 class="q q--light">' + esc(cx.lead.text) + "</h2></div>" +
-      '<p class="feat__sum feat__sum--light">' + esc(cx.summary) + "</p></div>" +
-      annotated(cx) +
-      '<div class="actions"><a class="btn btn--lilac" href="#p-conexia">Ver el caso ' + ARROW + "</a>" +
-      '<a class="btn btn--ghost-light" href="' + esc(cx.demo) + '" target="_blank" rel="noopener">Probar el panel ' + EXT + "</a></div>" +
-      "</div></section>" +
-
-      /* Galería secundaria */
-      '<section class="section"><div class="wrap">' +
-      '<div class="section__head"><h2 class="section__title">Más proyectos</h2>' +
-      '<p class="section__intro">Innovación, procesos y una app propia. Sentimix y SERMAS se pueden recorrer dentro de su caso.</p></div>' +
-      '<div class="prows">' + rest.map(row).join("") + "</div>" +
-      "</div></section>" +
-
-      /* Experiencia */
-      '<section class="section section--paper"><div class="wrap">' +
-      '<div class="section__head"><h2 class="section__title">Experiencia</h2>' +
-      '<p class="section__intro">Dos prácticas: una en producto tecnológico y otra en una agencia de publicidad.</p></div>' +
-      jobs(false) +
-      '<p class="more"><a class="btn btn--ghost" href="#sobre-mi">Formación y trayectoria completa ' + ARROW + "</a></p>" +
+      '<section class="section section--paper section--tight"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Experiencia</h2><a class="pcard__more" href="#sobre-mi">Trayectoria completa ' + ARROW + "</a></div>" +
+      jobs() +
       "</div></section></div>"
     );
   }
 
   function viewProjects() {
-    var discs = [];
-    P.forEach(function (p) { if (discs.indexOf(p.discipline) < 0) discs.push(p.discipline); });
     return (
       '<div class="view"><section class="section section--top"><div class="wrap">' +
-      '<div class="section__head"><h1 class="page-title">Proyectos</h1>' +
-      '<p class="section__intro">' + P.length + " proyectos de datos, producto, procesos e innovación. Entra en cualquiera para ver el caso completo.</p></div>" +
-      '<div class="filters" role="group" aria-label="Filtrar por disciplina">' +
-      '<button class="filter" type="button" id="f-all" data-f="" aria-pressed="true">Todos</button>' +
-      discs.map(function (d, i) { return '<button class="filter" type="button" id="f-' + i + '" data-f="' + esc(d) + '" aria-pressed="false">' + esc(d) + "</button>"; }).join("") +
-      "</div>" +
-      '<div class="prows prows--all" id="allRows">' + P.map(row).join("") + "</div>" +
+      '<div class="shead"><h1 class="page-title">Proyectos</h1><p class="shead__note">Pulsa <b>▶</b> para probarlos sin salir de la página.</p></div>' +
+      grid() +
       "</div></section></div>"
     );
   }
 
-  function embedBlock(p) {
+  function demoBlock(p) {
+    var src = p.embed || p.demo;
     return (
-      '<section class="demo" id="demo"><div class="wrap">' +
-      '<div class="demo__head"><h2 class="demo__t" id="demoT">El informe, en vivo</h2>' +
-      '<p class="demo__intro">Filtra por año, cambia de página y elige una canción por su portada. El informe se carga desde Power BI.</p></div>' +
+      '<section class="demo demo--compact" id="demo"><div class="wrap">' +
       '<div class="browser"><div class="browser__bar"><span class="browser__dots" aria-hidden="true"><i></i><i></i><i></i></span>' +
-      '<span class="browser__url">Power BI · ' + esc(p.title) + "</span>" +
-      '<a class="browser__open" href="' + esc(p.embed) + '" target="_blank" rel="noopener">Abrir en Power BI ' + EXT + "</a></div>" +
+      '<span class="browser__url" id="demoT">' + (p.embed ? "Power BI · " : "") + esc(p.title) + "</span>" +
+      '<a class="browser__open" href="' + esc(src) + '" target="_blank" rel="noopener">Pantalla completa ' + EXT + "</a></div>" +
       '<div class="facade" id="facade"><img src="' + p.cover + '" alt="">' +
-      '<button class="btn btn--lilac facade__btn" type="button" id="loadEmbed" data-src="' + esc(p.embed) + '" data-title="' + esc(p.title) + '">Cargar el informe interactivo</button></div>' +
+      '<button class="btn btn--lilac facade__btn" type="button" id="loadEmbed" data-src="' + esc(src) + '" data-title="' + esc(p.title) + '" data-bi="' + (p.embed ? "1" : "") + '">' +
+      '<span aria-hidden="true">▶</span> ' + (p.embed ? "Cargar el informe" : "Probar aquí") + "</button>" +
+      '<p class="facade__hint">' + esc(p.demoLabel || "Filtra por año, cambia de página y elige una canción por su portada.") + "</p></div>" +
       "</div></div></section>"
     );
   }
 
-  function demoBlock(p) {
+  function tabs(p) {
+    if (!p.sections.length) return "";
     return (
-      '<section class="demo" id="demo"><div class="wrap">' +
-      '<div class="demo__head"><h2 class="demo__t" id="demoT">Pruébalo aquí</h2>' +
-      '<p class="demo__intro">' + esc(p.demoLabel) + "</p></div>" +
-      '<div class="browser"><div class="browser__bar"><span class="browser__dots" aria-hidden="true"><i></i><i></i><i></i></span>' +
-      '<span class="browser__url">' + esc(p.title) + "</span>" +
-      '<a class="browser__open" href="' + esc(p.demo) + '" target="_blank" rel="noopener">Pantalla completa ' + EXT + "</a></div>" +
-      '<iframe class="browser__frame" src="' + esc(p.demo) + '" title="Versión interactiva de ' + esc(p.title) + '" loading="lazy"></iframe></div>' +
-      '<p class="demo__mobile"><a class="btn btn--lilac" href="' + esc(p.demo) + '" target="_blank" rel="noopener">Abrir a pantalla completa ' + EXT + "</a></p>" +
-      "</div></section>"
+      '<div class="tabs" data-tabs>' +
+      '<div class="tabs__list" role="tablist">' +
+      p.sections.map(function (s, i) {
+        return '<button type="button" role="tab" class="tabs__tab" id="tab-' + i + '" aria-controls="panel-' + i + '" aria-selected="' + (i === 0) + '"' + (i ? ' tabindex="-1"' : "") + ">" + esc(s.h) + "</button>";
+      }).join("") +
+      "</div>" +
+      p.sections.map(function (s, i) {
+        return '<div class="tabs__panel block__txt" role="tabpanel" id="panel-' + i + '" aria-labelledby="tab-' + i + '"' + (i ? " hidden" : "") + ">" +
+          (s.p || []).map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
+          (s.list ? "<ul>" + s.list.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" : "") +
+          "</div>";
+      }).join("") +
+      "</div>"
     );
   }
 
   function viewCase(p) {
     var i = P.indexOf(p), next = P[(i + 1) % P.length];
+    var hasDemo = p.embed || p.demo;
     var visual = p.notes
       ? '<div class="case-visual">' + annotated(p) + "</div>"
-      : p.embed
-        ? ""
-        : '<div class="case-cover' + (p.coverFit === "contain" ? " case-cover--contain" : "") + '"><img src="' + p.cover + '" alt="' + esc(p.coverAlt) + '"></div>';
-    var blocks = p.sections.map(function (s) {
-      return (
-        '<div class="block reveal"><h2>' + esc(s.h) + '</h2><div class="block__txt">' +
-        (s.p || []).map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") +
-        (s.list ? "<ul>" + s.list.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>" : "") +
-        "</div></div>"
-      );
-    }).join("");
+      : hasDemo ? "" : '<div class="case-cover' + (p.coverFit === "contain" ? " case-cover--contain" : "") + '"><img src="' + p.cover + '" alt="' + esc(p.coverAlt) + '"></div>';
     var gallery = p.gallery && p.gallery.length
-      ? '<section class="section section--paper"><div class="wrap"><h2 class="sub-title">Más pantallas</h2><div class="shots">' +
-        p.gallery.map(function (g) { return '<figure class="reveal"><img src="' + g[0] + '" alt="' + esc(g[1]) + '" loading="lazy"><figcaption>' + esc(g[1]) + "</figcaption></figure>"; }).join("") +
-        "</div></div></section>"
-      : "";
-    var pending = p.pending && p.pending.length
-      ? '<div class="pending" role="note"><b>Pendiente de completar</b><ul>' + p.pending.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul></div>"
-      : "";
-    var jump = p.embed || p.demo
-      ? '<p><a class="btn" href="#demoT" data-scroll="demoT">' + (p.embed ? "Ir al informe interactivo" : "Probar la versión interactiva") + ' <span class="arr" aria-hidden="true">↓</span></a></p>'
+      ? '<div class="strip">' + p.gallery.map(function (g, k) {
+          return '<button type="button" class="strip__item" data-zoom="' + k + '"><img src="' + g[0] + '" alt="' + esc(g[1]) + '" loading="lazy"><span>' + esc(g[1]) + "</span></button>";
+        }).join("") + "</div>"
       : "";
     return (
       '<div class="view"><article>' +
-      '<header class="case-hero"><div class="wrap">' +
+      '<header class="case-hero case-hero--compact"><div class="wrap">' +
       '<a class="back" href="#proyectos"><span aria-hidden="true">←</span> Proyectos</a>' +
       '<p class="eyebrow">' + esc(p.kicker) + "</p>" +
-      '<h1 class="case-title">' + esc(p.title) + "</h1>" +
-      '<dl class="case-meta">' +
-      (p.year ? "<div><dt>Año</dt><dd>" + esc(p.year) + "</dd></div>" : "") +
-      "<div><dt>Mi papel</dt><dd>" + esc(p.role) + "</dd></div>" +
-      "<div><dt>Herramientas</dt><dd>" + esc(p.tools.join(", ")) + "</dd></div>" +
-      "</dl></div></header>" +
-      '<section class="section section--case"><div class="wrap case-body">' +
-      (p.lead
-        ? '<div class="case-lead"><p class="q-label">' + esc(p.lead.label) + '</p><p class="q">' + esc(p.lead.text) + '</p><p class="case-sum">' + esc(p.summary) + "</p>" + jump + "</div>"
-        : '<div class="case-lead"><p class="case-sum case-sum--big">' + esc(p.summary) + "</p>" + jump + "</div>") +
-      visual + (p.facts ? facts(p) : "") + blocks + pending +
+      '<h1 class="case-title case-title--compact">' + esc(p.title) + "</h1>" +
+      '<p class="case-sum">' + esc(p.summary) + "</p>" +
+      '<div class="case-chips">' + chips([p.role].concat(p.tools), "chips--case") + "</div>" +
+      "</div></header>" +
+      (hasDemo ? demoBlock(p) : "") +
+      '<section class="section section--case section--tight"><div class="wrap case-body">' +
+      (p.lead ? '<div class="case-q"><p class="q-label">' + esc(p.lead.label) + '</p><p class="q">' + esc(p.lead.text) + "</p></div>" : "") +
+      (p.facts ? stats(p) : "") + visual + tabs(p) + gallery +
       "</div></section>" +
-      (p.embed ? embedBlock(p) : p.demo ? demoBlock(p) : "") + gallery +
       '<a class="next" href="#p-' + next.slug + '"><div class="wrap"><span class="next__l">Siguiente proyecto</span><span class="next__t">' + esc(next.title) + " " + ARROW + "</span></div></a>" +
       "</article></div>"
     );
@@ -259,10 +236,10 @@
   }
   function timeline() {
     var rows = [
-      ["Técnico Superior en Marketing y Publicidad", "IES Luis Buñuel, Alcorcón · 2020–2022", bar("var(--coral)", 2020, 9, 2022, 6)],
-      ["Marketing Digital (prácticas)", "PinkStone · jul. 2021 – may. 2022", bar("var(--lilac-deep)", 2021, 7, 2022, 5)],
-      ["Grado en Ciencia, Gestión e Ingeniería de Servicios", "URJC · desde 2022, TFG en abril de 2027", bar("var(--night)", 2022, 9, 2027, 4, true)],
-      ["Ingeniera de Producto (prácticas)", "Cloud Worldwide Services · oct. 2025 – feb. 2026", bar("var(--mint-deep)", 2025, 10, 2026, 2)],
+      ["Técnico Superior en Marketing y Publicidad", "IES Luis Buñuel · 2020–2022", bar("var(--coral)", 2020, 9, 2022, 6)],
+      ["Marketing Digital (prácticas)", "PinkStone · 2021–2022", bar("var(--lilac-deep)", 2021, 7, 2022, 5)],
+      ["Grado en Ciencia, Gestión e Ingeniería de Servicios", "URJC · TFG en abril de 2027", bar("var(--night)", 2022, 9, 2027, 4, true)],
+      ["Ingeniera de Producto (prácticas)", "Cloud Worldwide Services · 2025–2026", bar("var(--mint-deep)", 2025, 10, 2026, 2)],
     ];
     var axis = "";
     for (var y = 2020; y < 2028; y++) axis += "<span>" + y + "</span>";
@@ -270,38 +247,32 @@
       '<div class="timeline"><div class="tl" role="img" aria-label="Cronología de formación y prácticas entre 2020 y 2027.">' +
       '<span></span><div class="tl__axis">' + axis + "</div>" +
       rows.map(function (r) { return '<div class="tl__label"><b>' + r[0] + "</b><span>" + r[1] + '</span></div><div class="tl__lane">' + r[2] + "</div>"; }).join("") +
-      "</div></div>" +
-      '<p class="tl__note">Cada barra va del mes de inicio al de fin. El grado se extiende hasta la defensa del TFG, prevista en abril de 2027.</p>'
+      "</div></div>"
     );
   }
 
   function viewAbout() {
+    var tools = [
+      ["Analítica", ["Power BI", "DAX", "Google Analytics", "Excel", "SQL básico"]],
+      ["Marketing", ["Google Ads", "Meta Ads", "SEO", "WordPress", "Canva"]],
+      ["Producto y procesos", ["Azure DevOps", "Figma", "BPMN", "Kotlin"]],
+      ["Idiomas", ["Español nativo", "Inglés B2"]],
+    ];
     return (
       '<div class="view">' +
-      '<section class="section--top"><div class="wrap about-hero">' +
-      '<div><h1 class="page-title">Sobre mí</h1>' +
-      '<div class="about-lead">' +
-      "<p>Soy Meylin Soto Reyes. Empecé en el marketing digital, siguiendo campañas para pequeños negocios en una agencia, y ahí vi que lo que más me interesaba era entender qué funcionaba y por qué.</p>" +
-      "<p>Eso me llevó al grado en Ciencia, Gestión e Ingeniería de Servicios en la URJC y a unas prácticas como ingeniera de producto, donde hice dashboards en Power BI para seguir el uso de productos de inteligencia artificial.</p>" +
-      "</div></div>" +
-      '<div class="portrait" aria-hidden="true">' + MARK + '<span class="portrait__note">Aquí irá tu foto</span></div>' +
+      '<section class="section--top"><div class="wrap">' +
+      '<h1 class="page-title">Sobre mí</h1>' +
+      '<p class="about-one">Empecé en marketing digital y descubrí que lo que más me gustaba era entender <em>qué funciona y por qué</em>. Eso me llevó a producto y a los datos.</p>' +
       "</div></section>" +
-      '<section class="section"><div class="wrap">' +
-      '<div class="section__head"><h2 class="section__title">Experiencia</h2></div>' + jobs(true) +
+      '<section class="section section--tight"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Trayectoria</h2></div>' + timeline() +
       "</div></section>" +
-      '<section class="section section--paper"><div class="wrap">' +
-      '<div class="section__head"><h2 class="section__title">Formación</h2>' +
-      '<p class="section__intro">Grado en Ciencia, Gestión e Ingeniería de Servicios en la URJC, con las asignaturas completadas. Antes, Técnico Superior en Marketing y Publicidad en formación dual.</p></div>' +
-      timeline() + "</div></section>" +
-      '<section class="section"><div class="wrap">' +
-      '<div class="section__head"><h2 class="section__title">Herramientas</h2></div>' +
-      '<div class="cols">' +
-      '<div class="toolset"><h3>Analítica y medición</h3><p>Power BI con DAX, Google Analytics, Excel (tablas dinámicas, búsquedas, filtros) y SQL básico.</p></div>' +
-      '<div class="toolset"><h3>Marketing digital</h3><p>Google Ads, Meta Ads, SEO, WordPress y Canva.</p></div>' +
-      '<div class="toolset"><h3>Producto y procesos</h3><p>Azure DevOps, documentación funcional, Figma, BPMN y Kotlin para Android.</p></div>' +
-      '<div class="toolset"><h3>Idiomas</h3><p>Español nativo. Inglés B2.</p></div>' +
-      "</div>" +
-      '<div class="pending" role="note" style="margin-top:3rem"><b>Pendiente de completar</b><ul><li>Tu foto.</li><li>Dos o tres detalles personales: aficiones, lo último que aprendiste por tu cuenta, algo que te haga reír.</li></ul></div>' +
+      '<section class="section section--paper section--tight"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Experiencia</h2><p class="shead__note">Pulsa cada una para ver el detalle.</p></div>' + jobs() +
+      "</div></section>" +
+      '<section class="section section--tight"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Herramientas</h2></div>' +
+      '<div class="toolgrid">' + tools.map(function (t) { return '<div class="toolset"><h3>' + t[0] + "</h3>" + chips(t[1]) + "</div>"; }).join("") + "</div>" +
       "</div></section></div>"
     );
   }
@@ -339,7 +310,7 @@
     else swap();
   }
 
-  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); }
+  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); }
 
   /* Aparición suave al hacer scroll: solo para lo que aún no está en pantalla */
   var io = null;
@@ -359,11 +330,11 @@
   function setupFilters() {
     var g = document.getElementById("allRows");
     if (!g) return;
-    document.querySelectorAll(".filter").forEach(function (b) {
+    main.querySelectorAll(".filter").forEach(function (b) {
       b.addEventListener("click", function () {
         var f = b.getAttribute("data-f");
-        document.querySelectorAll(".filter").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
-        g.querySelectorAll(".prow").forEach(function (c) {
+        main.querySelectorAll(".filter").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+        g.querySelectorAll(".pcard").forEach(function (c) {
           c.classList.toggle("is-hidden", !!f && c.getAttribute("data-disc") !== f);
           c.classList.remove("is-pending");
         });
@@ -371,18 +342,115 @@
     });
   }
 
+  /* Pestañas de los casos */
+  function setupTabs() {
+    main.querySelectorAll("[data-tabs]").forEach(function (box) {
+      var tabsEls = box.querySelectorAll('[role="tab"]');
+      function select(t) {
+        tabsEls.forEach(function (x) {
+          var on = x === t;
+          x.setAttribute("aria-selected", String(on));
+          x.tabIndex = on ? 0 : -1;
+          document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+        });
+      }
+      tabsEls.forEach(function (t, i) {
+        t.addEventListener("click", function () { select(t); });
+        t.addEventListener("keydown", function (e) {
+          var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+          if (!d) return;
+          var n = tabsEls[(i + d + tabsEls.length) % tabsEls.length];
+          select(n); n.focus();
+        });
+      });
+    });
+  }
+
+  /* Cifras que cuentan hacia arriba al aparecer */
+  function setupCount() {
+    if (reduce || !("IntersectionObserver" in window)) return;
+    var els = main.querySelectorAll("[data-count]");
+    var cio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        cio.unobserve(e.target);
+        var el = e.target, to = parseInt(el.getAttribute("data-count"), 10), t0 = null;
+        if (isNaN(to)) return;
+        function step(ts) {
+          if (!t0) t0 = ts;
+          var k = Math.min(1, (ts - t0) / 900);
+          el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+          if (k < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    });
+    els.forEach(function (el) { cio.observe(el); });
+  }
+
+  /* Palabra que rota en la portada */
+  var rotTimer = null;
+  function setupRotator() {
+    clearInterval(rotTimer);
+    var el = document.getElementById("rot");
+    if (!el || reduce) return;
+    var words = ["producto", "datos", "marketing", "procesos"], i = 0;
+    rotTimer = setInterval(function () {
+      el.classList.add("is-out");
+      setTimeout(function () { i = (i + 1) % words.length; el.textContent = words[i]; el.classList.remove("is-out"); }, 280);
+    }, 2200);
+  }
+
+  /* ---------- Ventana para probar demos e informes ---------- */
+  var dlg = document.createElement("dialog");
+  dlg.className = "modal";
+  dlg.innerHTML =
+    '<div class="modal__bar"><span class="modal__t" id="modalT"></span>' +
+    '<a class="browser__open" id="modalOpen" target="_blank" rel="noopener">Pantalla completa ' + EXT + "</a>" +
+    '<a class="browser__open" id="modalCase">Ver caso →</a>' +
+    '<button type="button" class="modal__x" id="modalX" aria-label="Cerrar">✕</button></div>' +
+    '<div class="modal__body" id="modalBody"></div>';
+  document.body.appendChild(dlg);
+  function openModal(title, inner, openHref, caseHref) {
+    document.getElementById("modalT").textContent = title;
+    document.getElementById("modalBody").innerHTML = inner;
+    var o = document.getElementById("modalOpen"), c = document.getElementById("modalCase");
+    o.hidden = !openHref; if (openHref) o.href = openHref;
+    c.hidden = !caseHref; if (caseHref) c.href = caseHref;
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal() { if (dlg.open) dlg.close(); }
+  dlg.addEventListener("close", function () { document.getElementById("modalBody").innerHTML = ""; document.body.style.overflow = ""; });
+  document.getElementById("modalX").addEventListener("click", closeModal);
+  document.getElementById("modalCase").addEventListener("click", closeModal);
+  dlg.addEventListener("click", function (e) { if (e.target === dlg) closeModal(); });
+
+  main.addEventListener("click", function (e) {
+    var pb = e.target.closest("[data-play]");
+    if (pb) {
+      var p = bySlug(pb.getAttribute("data-play")), src = p.embed || p.demo;
+      openModal(p.title, '<iframe class="modal__frame' + (p.embed ? " modal__frame--bi" : "") + '" src="' + esc(src) + '" title="' + esc(p.title) + '" allowfullscreen></iframe>', src, "#p-" + p.slug);
+      return;
+    }
+    var z = e.target.closest("[data-zoom]");
+    if (z) {
+      var img = z.querySelector("img");
+      openModal(img.alt, '<img class="modal__img" src="' + img.getAttribute("src") + '" alt="' + esc(img.alt) + '">', null, null);
+    }
+  });
+
   /* El informe de Power BI se carga solo cuando se pide */
   function setupEmbed() {
     var b = document.getElementById("loadEmbed");
     if (!b) return;
     b.addEventListener("click", function () {
       var f = document.createElement("iframe");
-      f.className = "browser__frame browser__frame--bi";
+      f.className = "browser__frame" + (b.getAttribute("data-bi") ? " browser__frame--bi" : "");
       f.src = b.getAttribute("data-src");
-      f.title = "Informe interactivo: " + b.getAttribute("data-title");
+      f.title = "Versión interactiva: " + b.getAttribute("data-title");
       f.setAttribute("allowfullscreen", "true");
-      var box = document.getElementById("facade");
-      box.replaceWith(f);
+      document.getElementById("facade").replaceWith(f);
       f.focus();
     });
   }

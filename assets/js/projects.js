@@ -12,8 +12,7 @@
   - lead:       la pregunta o decisión que abre el caso
   - embed:      enlace de "Publicar en la web" de Power BI (se carga al pulsar)
   - demo:       ruta a una web interactiva propia dentro de /demos
-  - pending:    notas en un recuadro discontinuo mientras faltan datos.
-                Bórralo (o déjalo vacío) cuando el caso esté completo.
+  - pending:    notas internas de lo que falta. Ya no se muestran en la web.
 */
 window.PROJECTS = [
   {
@@ -231,6 +230,8 @@ window.PROJECTS = [
     cover: "assets/img/emoi-icon.webp",
     coverAlt: "Logotipo de la app Emoi.",
     coverFit: "contain",
+    demo: "demos/emoi/index.html",
+    demoLabel: "Recreación web de la app: elige cómo te sientes y mira cómo se guarda tu historial.",
     role: "Diseño y desarrollo",
     sections: [
       {

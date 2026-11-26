@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emoi · demo web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap">
+<style>
+  :root { --bg: #FAF7F1; --happy: #009DCB; --neutral: #90C134; --sad: #F44336; --text: #333333; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    display: grid; place-items: center; min-height: 100%; padding: 24px 12px;
+    background: radial-gradient(circle at 30% 20%, #3a3157, #211B32 70%);
+    font-family: "Caveat", cursive; color: var(--text);
+  }
+  .phone {
+    width: min(340px, 100%); aspect-ratio: 9 / 18.5; max-height: calc(100vh - 48px);
+    background: #111; border-radius: 42px; padding: 12px; position: relative;
+    box-shadow: 0 30px 60px rgba(0,0,0,.45), inset 0 0 0 2px #2a2a2a;
+  }
+  .screen { width: 100%; height: 100%; background: var(--bg); border-radius: 32px; overflow: hidden; display: flex; flex-direction: column; }
+  .status { display: flex; justify-content: space-between; padding: 10px 22px 4px; font: 600 12px/1 system-ui, sans-serif; color: #555; }
+  .notch { position: absolute; top: 18px; left: 50%; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; background: #111; }
+  .app { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+  h1 { font-weight: 400; font-size: 30px; margin: 12px 0 24px; }
+  .emojis { display: flex; gap: 16px; }
+  .emo {
+    width: 72px; height: 72px; border-radius: 50%; border: 0; cursor: pointer; font-size: 32px; line-height: 1;
+    display: grid; place-items: center; box-shadow: 0 3px 8px rgba(0,0,0,.18);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .emo:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,.22); }
+  .emo:active { transform: scale(.92); }
+  .emo:focus-visible { outline: 3px solid #333; outline-offset: 3px; }
+  .happy { background: var(--happy); } .neutral { background: var(--neutral); } .sad { background: var(--sad); }
+  h2 { font-weight: 400; font-size: 24px; margin: 32px 0 0; }
+  .hist { list-style: none; padding: 0; margin: 8px 0 0; font-size: 22px; line-height: 1.35; min-height: 1.35em; }
+  .hist li { animation: pop .3s ease; }
+  @keyframes pop { from { opacity: 0; transform: translateY(-6px); } }
+  .clear {
+    margin-top: 16px; border: 0; border-radius: 999px; padding: 10px 22px; cursor: pointer;
+    background: #DD4444; color: #fff; font: 400 20px/1 "Caveat", cursive; box-shadow: 0 2px 6px rgba(0,0,0,.18);
+  }
+  .clear:active { transform: scale(.96); }
+  .author { margin-top: auto; padding-top: 40px; font-size: 17px; color: #888; }
+  .toast {
+    position: absolute; left: 50%; bottom: 48px; transform: translate(-50%, 10px); opacity: 0;
+    background: #333; color: #fff; padding: 8px 16px; border-radius: 999px; font: 500 13px/1.2 system-ui, sans-serif;
+    transition: opacity .2s, transform .2s; pointer-events: none; white-space: nowrap;
+  }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="phone" role="application" aria-label="Recreación web de la app Emoi">
+  <span class="notch" aria-hidden="true"></span>
+  <div class="screen">
+    <div class="status" aria-hidden="true"><span id="clock">9:41</span><span>●●● ▮</span></div>
+    <main class="app">
+      <h1>¿Cómo te sientes hoy?</h1>
+      <div class="emojis">
+        <button class="emo happy" type="button" data-mood="😊" aria-label="Contenta">😊</button>
+        <button class="emo neutral" type="button" data-mood="😐" aria-label="Normal">😐</button>
+        <button class="emo sad" type="button" data-mood="😔" aria-label="Triste">😔</button>
+      </div>
+      <h2>Últimos estados:</h2>
+      <ul class="hist" id="hist" aria-live="polite"></ul>
+      <button class="clear" type="button" id="clear">Borrar historial</button>
+      <p class="author">Realizado por Meylin Soto</p>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+</div>
+<script>
+(function () {
+  "use strict";
+  var KEY = "emoi-demo-moods";
+  var hist = document.getElementById("hist"), toast = document.getElementById("toast"), t;
+  function load() { try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch (e) { return []; } }
+  function save(l) { try { localStorage.setItem(KEY, JSON.stringify(l)); } catch (e) {} }
+  var moods = load();
+  function fmt(d) { function z(n) { return (n < 10 ? "0" : "") + n; } return z(d.getDate()) + "/" + z(d.getMonth() + 1) + "/" + d.getFullYear(); }
+  function render() {
+    hist.innerHTML = "";
+    if (!moods.length) { var li = document.createElement("li"); li.textContent = "Sin registros aún."; hist.appendChild(li); return; }
+    moods.forEach(function (m) { var li = document.createElement("li"); li.textContent = m; hist.appendChild(li); });
+  }
+  function say(msg) { toast.textContent = msg; toast.classList.add("on"); clearTimeout(t); t = setTimeout(function () { toast.classList.remove("on"); }, 1400); }
+  document.querySelectorAll("[data-mood]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      moods.unshift(b.getAttribute("data-mood") + " - " + fmt(new Date()));
+      moods = moods.slice(0, 5); save(moods); render(); say("Estado guardado");
+    });
+  });
+  document.getElementById("clear").addEventListener("click", function () { moods = []; save(moods); render(); say("Historial borrado"); });
+  var c = document.getElementById("clock"), now = new Date();
+  c.textContent = now.getHours() + ":" + (now.getMinutes() < 10 ? "0" : "") + now.getMinutes();
+  render();
+})();
+</script>
+<script defer src="https://cloud.umami.is/script.js" data-website-id="6c71785f-b3b7-48df-aa21-91d204837db0"></script>
+</body>
+</html>
