@@ -253,23 +253,53 @@
   }
 
   /* ---------- Sobre mí ----------
-     Para añadir tu foto: guarda el archivo en assets/img/ y escribe aquí su ruta,
-     por ejemplo "assets/img/meylin.webp". Mientras esté vacío, no se muestra nada. */
-  var PHOTO = "";
+     Fotos en assets/img/meylin-*.webp. Para cambiar el retrato, sustituye ese archivo. */
+  var PHOTO = "assets/img/meylin-retrato.webp";
+
+  /* Mapa de intereses: cada punto del logo une proyectos y herramientas */
+  var MAP = [
+    { k: "negocio", n: "Negocio", x: 20, y: 3, c: "var(--coral)",
+      d: "Cómo se gana valor, qué procesos hay detrás y dónde se pierde tiempo.",
+      p: ["sermas-citas", "sentimix"], t: "BPMN, Modelo Canvas, e3value, Service Blueprint" },
+    { k: "personas", n: "Personas", x: 35, y: 13, c: "var(--lilac)",
+      d: "Qué necesita quien va a usar algo y qué le molesta hoy.",
+      p: ["conexia", "emoi", "sentimix"], t: "Figma, Design Thinking, Customer Journey Map, prototipado" },
+    { k: "datos", n: "Datos", x: 31, y: 34, c: "var(--mint)",
+      d: "Qué cuentan los números y cómo enseñarlo para que se entienda.",
+      p: ["spotify-tendencias", "ventas-vinos"], t: "Power BI, DAX, Power Query, Excel, SQL básico" },
+    { k: "tecnologia", n: "Tecnología", x: 8, y: 33, c: "#FFFFFF",
+      d: "En qué puede ayudar la tecnología y cómo se convierte en producto.",
+      p: ["conexia", "emoi"], t: "Azure DevOps, historias de usuario, documentación funcional, Kotlin" },
+    { k: "comunicacion", n: "Comunicación", x: 4, y: 15, c: "var(--coral)",
+      d: "Contar bien las cosas, a quien toca y por el canal adecuado. Aquí empecé.",
+      p: [], x2: "Prácticas en PinkStone", t: "Google Ads, Facebook Ads, Google Analytics, SEO, WordPress" },
+  ];
+  var VB = { x: -17, y: -4, w: 70, h: 44 };
+
+  function starMap() {
+    var lines = MAP.map(function (m, i) { return '<line data-ray="' + i + '" x1="20" y1="20" x2="' + m.x + '" y2="' + m.y + '"/>'; }).join("");
+    var btns = MAP.map(function (m, i) {
+      var left = ((m.x - VB.x) / VB.w * 100).toFixed(2), top = ((m.y - VB.y) / VB.h * 100).toFixed(2);
+      var side = m.x < 12 ? " star__node--l" : m.x > 28 ? " star__node--r" : " star__node--t";
+      return '<button type="button" class="star__node' + side + '" data-node="' + i + '" aria-pressed="' + (i === 2) + '" style="left:' + left + "%;top:" + top + "%;--c:" + m.c + '"><span class="star__dot" aria-hidden="true"></span><span class="star__lab">' + m.n + "</span></button>";
+    }).join("");
+    return (
+      '<div class="star"><svg class="star__svg" viewBox="' + VB.x + " " + VB.y + " " + VB.w + " " + VB.h + '" aria-hidden="true">' + lines +
+      '<circle class="star__core" cx="20" cy="20" r="2.4"/></svg>' + btns + "</div>"
+    );
+  }
+  function starPanel(i) {
+    var m = MAP[i];
+    var projs = m.p.map(function (sl) { var p = bySlug(sl); return p ? '<a href="#p-' + p.slug + '">' + esc(p.title) + " →</a>" : ""; }).join("");
+    return (
+      '<p class="sp__k" style="--c:' + m.c + '">' + m.n + "</p>" +
+      '<p class="sp__d">' + m.d + "</p>" +
+      '<div class="sp__row"><span>Dónde lo he aplicado</span><div class="sp__links">' + (projs || "<em>" + m.x2 + "</em>") + "</div></div>" +
+      '<div class="sp__row"><span>Con qué</span><p>' + m.t + "</p></div>"
+    );
+  }
 
   function viewAbout() {
-    var star =
-      '<svg class="ab-star" viewBox="-17 -4 70 44" role="img" aria-label="La marca MEY como mapa: un centro unido a negocio, personas, datos, tecnología y comunicación.">' +
-      '<line x1="20" y1="20" x2="20" y2="3"/><line x1="20" y1="20" x2="35" y2="13"/><line x1="20" y1="20" x2="31" y2="34"/><line x1="20" y1="20" x2="8" y2="33"/><line x1="20" y1="20" x2="4" y2="15"/>' +
-      '<circle class="core" cx="20" cy="20" r="2.2"/>' +
-      '<circle class="node" cx="20" cy="3" r="1.1"/><circle class="node" cx="35" cy="13" r="1.1"/><circle class="node" cx="31" cy="34" r="1.1"/><circle class="node" cx="8" cy="33" r="1.1"/><circle class="node" cx="4" cy="15" r="1.1"/>' +
-      '<text x="20" y="-.4" text-anchor="middle">Negocio</text>' +
-      '<text x="37" y="13.7">Personas</text>' +
-      '<text x="33" y="37">Datos</text>' +
-      '<text x="8" y="37.4" text-anchor="middle">Tecnología</text>' +
-      '<text x="2" y="15.7" text-anchor="end">Comunicación</text>' +
-      "</svg>";
-
     var path = [
       { k: "study", when: "2020 – 2022", t: "Mis comienzos en marketing", what: "Grado Superior en Marketing y Publicidad, modalidad dual",
         p: "Descubrí el marketing digital, la comunicación y el comportamiento del consumidor. Y, sobre todo, lo importante que es entender lo que necesita cada cliente." },
@@ -283,47 +313,50 @@
       { k: "now", when: "Ahora", t: "Mi siguiente capítulo", what: "",
         p: "Estoy terminando el TFG, haciendo proyectos por mi cuenta y buscando mi primera oportunidad para aplicar todo lo aprendido." },
     ];
-
     var way = [
       ["Entender", "El contexto, a quien lo usa y el problema, antes de proponer nada."],
       ["Analizar", "Ordenar la información, buscar patrones y ver dónde se puede mejorar un proceso."],
       ["Diseñar", "Convertir lo aprendido en algo que funcione, se entienda y esté cuidado."],
       ["Mejorar", "Revisar el resultado, aprender de lo que falla y validar cada decisión."],
     ];
-
-    /* em = la he usado en prácticas */
     var tools = [
-      ["Datos y analítica", "<em>Power BI</em>, <em>DAX</em>, <em>Power Query</em>, Excel, SQL básico"],
-      ["Producto y experiencia de usuario", "<em>Figma</em>, <em>prototipado</em>, <em>diseño de interfaces</em>, Design Thinking, UX/UI, Design Systems"],
-      ["Procesos y negocio", "BPMN, Customer Journey Map, Service Blueprint, análisis de procesos, diseño de servicios"],
-      ["Gestión de proyectos y producto", "<em>Azure DevOps</em>, <em>historias de usuario</em>, <em>documentación funcional</em>, metodologías ágiles"],
-      ["Marketing digital", "<em>Google Ads</em>, <em>Facebook Ads</em>, <em>Google Analytics</em>, <em>SEO</em>, <em>WordPress</em>, SEM"],
+      ["Datos y analítica", "<em>Power BI</em>, <em>DAX</em>, <em>Power Query</em>, Excel, SQL básico", "var(--mint-deep)"],
+      ["Producto y experiencia de usuario", "<em>Figma</em>, <em>prototipado</em>, <em>diseño de interfaces</em>, Design Thinking, UX/UI, Design Systems", "var(--lilac-deep)"],
+      ["Procesos y negocio", "BPMN, Customer Journey Map, Service Blueprint, análisis de procesos, diseño de servicios", "var(--coral-deep)"],
+      ["Gestión de proyectos y producto", "<em>Azure DevOps</em>, <em>historias de usuario</em>, <em>documentación funcional</em>, metodologías ágiles", "var(--night)"],
+      ["Marketing digital", "<em>Google Ads</em>, <em>Facebook Ads</em>, <em>Google Analytics</em>, <em>SEO</em>, <em>WordPress</em>, SEM", "var(--coral)"],
     ];
-
+    var pics = [
+      ["assets/img/meylin-londres.webp", "Londres", "Viajar y descubrir sitios nuevos."],
+      ["assets/img/meylin-concierto.webp", "En un concierto", "Música pop, en directo si puede ser."],
+      ["assets/img/meylin-loki.webp", "Exposición de series", "Me gustan las buenas historias."],
+    ];
     function head(n, t) { return '<header class="ab-h"><span>' + n + "</span><h2>" + t + "</h2></header>"; }
 
     return (
       '<div class="view ab">' +
       '<div class="wrap">' +
-
-      '<section class="ab-row ab-intro" aria-labelledby="abT">' +
-      '<div class="ab-h"><span>Sobre mí</span><p>Meylin Soto Reyes<br>Madrid</p>' +
-      (PHOTO ? '<figure class="ab-photo"><img src="' + esc(PHOTO) + '" alt="Meylin Soto Reyes"></figure>' : "") +
-      "</div>" +
-      "<div>" +
-      '<h1 class="ab-title" id="abT">Me gusta entender cómo funcionan las cosas y descubrir cómo hacerlas mejor.</h1>' +
+      '<section class="ab-intro" aria-labelledby="abT">' +
+      '<div class="ab-intro__txt">' +
+      '<p class="ab-kick"><span class="mey-dot" aria-hidden="true"></span>Sobre mí</p>' +
+      '<h1 class="ab-title" id="abT">Me gusta entender cómo funcionan las cosas y descubrir <span>cómo hacerlas mejor.</span></h1>' +
       '<p class="ab-lead">Mi formación y mi experiencia mezclan análisis, creatividad y tecnología. Me interesa mirar un problema desde varios lados y convertir la información en algo útil, fácil de entender y pensado para las personas que lo van a usar.</p>' +
-      '<p class="ab-now"><span class="mey-dot" aria-hidden="true"></span><span><b>Ahora mismo</b> estoy terminando el TFG y buscando mi primera oportunidad después de las prácticas.</span></p>' +
-      "</div></section>" +
+      '<p class="ab-now"><b>Ahora mismo</b> estoy terminando el TFG y buscando mi primera oportunidad después de las prácticas.</p>' +
+      "</div>" +
+      (PHOTO ? '<figure class="ab-portrait"><img src="' + esc(PHOTO) + '" alt="Meylin Soto Reyes sentada en un autobús rojo de Londres, con chaqueta roja." width="800" height="1000"><figcaption>Yo, en Londres. <span>Madrid es mi base.</span></figcaption></figure>' : "") +
+      "</section></div>" +
 
-      '<section class="ab-row">' + head("01", "Lo que me interesa") +
-      '<div class="ab-map">' + star +
-      '<div class="ab-areas">' +
+      '<section class="ab-dark"><div class="wrap ab-row">' + head("01", "Lo que me interesa") +
+      "<div>" +
       '<p class="ab-list">Producto digital<i>/</i>Business Intelligence y datos<i>/</i>Marketing estratégico y analítico<i>/</i>Experiencia de cliente<i>/</i>Consultoría y procesos<i>/</i>Transformación digital</p>' +
-      "<p>No las veo como caminos separados. En todas hay que entender cómo funciona un negocio, qué necesitan las personas, qué cuentan los datos y en qué puede ayudar la tecnología. Es lo que me gusta hacer, sea cual sea el puesto.</p>" +
+      '<p class="ab-dark__p">No las veo como caminos separados: todas salen del mismo centro. <b>Pulsa un punto</b> para ver dónde lo he aplicado.</p>' +
+      '<div class="ab-map">' + starMap() + '<div class="sp" id="starPanel" aria-live="polite">' + starPanel(2) + "</div></div>" +
       "</div></div></section>" +
 
+      '<div class="wrap">' +
       '<section class="ab-row">' + head("02", "Cómo he llegado aquí") +
+      "<div>" +
+      '<p class="ab-key"><span class="k-study"></span>Estudios <span class="k-work"></span>Prácticas</p>' +
       '<ol class="ab-path">' +
       path.map(function (s) {
         return '<li class="ab-step ab-step--' + s.k + '">' +
@@ -334,29 +367,44 @@
           (s.more ? '<details class="ab-more"><summary>Qué hacía</summary><ul>' + s.more.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul><small>Los dashboards y documentos son internos de la empresa; por eso no aparecen aquí.</small></details>" : "") +
           "</li>";
       }).join("") +
-      "</ol></section>" +
+      "</ol></div></section>" +
 
       '<section class="ab-row">' + head("03", "Cómo trabajo") +
       '<div><ol class="ab-way">' + way.map(function (w) { return "<li><b>" + w[0] + "</b><span>" + w[1] + "</span></li>"; }).join("") + "</ol>" +
-      '<p class="ab-loop">Y, cuando termino, vuelvo a empezar por el primero.</p></div>' +
+      '<p class="ab-loop">↻ Y, cuando termino, vuelvo a empezar por el primero.</p></div>' +
       "</section>" +
 
       '<section class="ab-row">' + head("04", "Con qué trabajo") +
-      '<div><dl class="ab-index">' + tools.map(function (t) { return "<div><dt>" + t[0] + "</dt><dd>" + t[1] + "</dd></div>"; }).join("") + "</dl>" +
-      '<p class="ab-legend">Con punto, lo que he usado en prácticas. El resto lo he trabajado en el grado y en proyectos propios.</p></div>' +
+      '<div><dl class="ab-index">' + tools.map(function (t) { return '<div style="--c:' + t[2] + '"><dt>' + t[0] + "</dt><dd>" + t[1] + "</dd></div>"; }).join("") + "</dl>" +
+      '<p class="ab-legend"><span class="mey-dot" aria-hidden="true"></span>Lo que he usado en prácticas. El resto lo he trabajado en el grado y en proyectos propios.</p></div>' +
       "</section>" +
       "</div>" +
 
       '<div class="ab-personal"><div class="wrap"><section class="ab-row">' + head("05", "Fuera del trabajo") +
       "<div>" +
+      '<div class="ab-pics">' + pics.map(function (p) {
+        return '<figure><img src="' + p[0] + '" alt="' + esc(p[1]) + '" loading="lazy" width="600" height="750"><figcaption><b>' + p[1] + "</b> " + p[2] + "</figcaption></figure>";
+      }).join("") + "</div>" +
       '<p class="ab-voice">Me gustan las buenas historias: leo, veo series y juego a videojuegos narrativos. También escucho mucha música pop y voy a conciertos.</p>' +
-      '<p class="ab-voice">Me gusta viajar y descubrir sitios nuevos, hacer manualidades y proyectos creativos, y cocinar, sobre todo postres. Y sigo aprendiendo cosas nuevas, entre ellas mejorar mi inglés.</p>' +
+      '<p class="ab-voice">Me gusta viajar, hacer manualidades y proyectos creativos, y cocinar, sobre todo postres. Y sigo aprendiendo cosas nuevas, entre ellas mejorar mi inglés.</p>' +
       '<div class="ab-close"><p>Siempre estoy abierta a conocer proyectos, ideas y oportunidades nuevas.</p>' +
-      '<a href="#contacto">Escríbeme</a><a href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ↗</a></div>' +
+      '<a class="btn btn--small" href="#contacto">Escríbeme</a><a class="btn btn--small btn--ghost" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ↗</a></div>' +
       "</div></section></div></div>" +
-
       "</div>"
     );
+  }
+
+  function setupStar() {
+    var panel = document.getElementById("starPanel");
+    if (!panel) return;
+    var nodes = main.querySelectorAll(".star__node"), rays = main.querySelectorAll("[data-ray]");
+    function pick(i) {
+      nodes.forEach(function (n) { n.setAttribute("aria-pressed", String(n.getAttribute("data-node") === String(i))); });
+      rays.forEach(function (r) { r.classList.toggle("is-on", r.getAttribute("data-ray") === String(i)); });
+      panel.innerHTML = starPanel(i);
+    }
+    nodes.forEach(function (n) { n.addEventListener("click", function () { pick(+n.getAttribute("data-node")); }); });
+    pick(2);
   }
 
   /* ---------- Router ---------- */
@@ -392,7 +440,7 @@
     else swap();
   }
 
-  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); }
+  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); setupStar(); }
 
   /* Aparición suave al hacer scroll: solo para lo que aún no está en pantalla */
   var io = null;
