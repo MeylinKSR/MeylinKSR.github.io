@@ -69,6 +69,25 @@ window.PROJECTS = [
     pending: ["Año en que lo hiciste y si fue para una asignatura o por tu cuenta."],
   },
   {
+    slug: "ventas-vinos",
+    title: "Ventas de vinos · Bodega",
+    kicker: "Informe interactivo en Power BI",
+    discipline: "Datos y BI",
+    year: "",
+    tools: ["Power BI"],
+    summary:
+      "Un informe en Power BI para analizar las ventas de vino de una bodega.",
+    cover: "assets/img/vinos-cover.webp",
+    coverAlt: "Portada del informe de ventas de vinos de una bodega.",
+    embed:
+      "https://app.powerbi.com/view?r=eyJrIjoiOGE3MGQ4NjItNzc3Yi00NjEwLWJhY2EtNzgwMmVjNjA5MDljIiwidCI6IjVmODRjNGVhLTM3MGQtNGI5ZS04MzBjLTc1NmY4YmYxYjUxZiIsImMiOjh9&pageName=0a5e76b44031ca11d015",
+    demoLabel: "Recorre el informe: usa los filtros y cambia de página. Se carga desde Power BI.",
+    role: "Diseño del informe",
+    sections: [],
+    gallery: [],
+    pending: ["Pregunta de análisis, datos usados, qué se puede ver y contexto (asignatura o propio, año)."],
+  },
+  {
     slug: "conexia",
     featured: true,
     title: "Conexia",
