@@ -562,3 +562,54 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 .facade__hint { left: 50%; right: auto; transform: translateX(-50%); width: max-content; max-width: calc(100% - 2rem); background: rgba(33, 27, 50, .85); padding: .5rem 1rem; border-radius: 999px; font-size: .88rem; }
 .facade img { opacity: .45; }
 .case-q { display: grid; gap: .6rem; }
+
+/* ==========================================================
+   Ajuste de escala: tipografía más contenida y más aire
+   ========================================================== */
+:root { --wrap: 1180px; }
+@media (min-width: 700px) {
+  .wrap, .close__in { padding-left: max(56px, env(safe-area-inset-left, 0px)); padding-right: max(56px, env(safe-area-inset-right, 0px)); }
+}
+@media (min-width: 1100px) {
+  .wrap, .close__in { padding-left: max(72px, env(safe-area-inset-left, 0px)); padding-right: max(72px, env(safe-area-inset-right, 0px)); }
+}
+.nav__in { max-width: var(--wrap); }
+
+.section--tight { padding-block: clamp(3.5rem, 6vw, 5.5rem); }
+.section__title, .page-title { font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.6rem); font-weight: 700; letter-spacing: -.04em; line-height: 1; }
+.shead { margin-bottom: 2rem; }
+
+.hero { padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem); }
+.hero__grid { gap: clamp(2.5rem, 5vw, 5rem); }
+.hero__name { font-size: clamp(2.4rem, 1.2rem + 4vw, 4.6rem); letter-spacing: -.05em; line-height: .95; }
+.hero__role { font-size: var(--step-1); margin-top: 1.1rem; }
+.hero__bio { font-size: var(--step-0); margin: .7rem 0 1.6rem; }
+.hstat b { font-size: clamp(1.8rem, 1.3rem + 1.5vw, 2.6rem); }
+.hstat span { font-size: .8rem; }
+.chips li { font-size: .8rem; padding: .32rem .75rem; }
+
+.pgrid { gap: 1.6rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.pcard__media { aspect-ratio: 16 / 9; }
+.pcard__media img { filter: saturate(.85); transition: transform .7s var(--ease), filter .4s; }
+.pcard:hover .pcard__media img { filter: none; }
+.pcard__body { padding: 1.1rem 1.2rem 1.2rem; }
+.pcard__t { font-size: 1.12rem; line-height: 1.2; }
+.pcard__k { font-size: .86rem; }
+.pcard .btn--small { font-size: .82rem; padding: .6em 1em; }
+
+.xjob__main b { font-size: 1.1rem; }
+.xjob__short { font-size: .95rem; }
+
+.case-title--compact { font-size: clamp(2rem, 1.3rem + 2.6vw, 3.4rem); }
+.case-hero--compact .case-sum { font-size: var(--step-0); }
+.case-q .q { font-size: clamp(1.3rem, 1rem + 1vw, 1.8rem); }
+.stat b { font-size: clamp(1.8rem, 1.3rem + 1.5vw, 2.6rem); }
+.about-one { font-size: var(--step-1); }
+
+.close { padding-block: clamp(3.5rem, 7vw, 5.5rem) calc(2rem + env(safe-area-inset-bottom, 0px)); }
+.close__title { font-size: clamp(2.2rem, 1.3rem + 3.4vw, 4rem); letter-spacing: -.05em; }
+.close__value { font-size: .98rem; }
+.next { padding-block: clamp(2.5rem, 5vw, 4rem); }
+.next__t { font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.6rem); }
+@media (min-width: 700px) { .nav__in { padding-left: max(56px, env(safe-area-inset-left, 0px)); padding-right: max(56px, env(safe-area-inset-right, 0px)); } }
+@media (min-width: 1100px) { .nav__in { padding-left: max(72px, env(safe-area-inset-left, 0px)); padding-right: max(72px, env(safe-area-inset-right, 0px)); } }

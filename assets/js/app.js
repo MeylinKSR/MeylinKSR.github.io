@@ -383,6 +383,7 @@
           if (k < 1) requestAnimationFrame(step);
         }
         requestAnimationFrame(step);
+        setTimeout(function () { el.textContent = to; }, 1100);
       });
     });
     els.forEach(function (el) { cio.observe(el); });
