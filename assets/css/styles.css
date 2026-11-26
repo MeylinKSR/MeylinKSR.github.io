@@ -379,7 +379,7 @@ main { outline: none; }
 .close__title .dot { color: var(--lilac); }
 .close__lead { color: var(--on-night-2); margin-top: 1.4rem; max-width: 48ch; }
 .close__grid { display: grid; gap: 1px; background: var(--night-line); margin-top: clamp(2.5rem, 5vw, 3.5rem); border-block: 1px solid var(--night-line); }
-@media (min-width: 900px) { .close__grid { grid-template-columns: repeat(4, 1fr); } }
+@media (min-width: 900px) { .close__grid { grid-template-columns: repeat(3, 1fr); } }
 .close__link { background: var(--night); padding: 1.4rem 1.2rem 1.4rem 0; display: grid; gap: .4rem; text-decoration: none; position: relative; min-width: 0; transition: background .25s; }
 @media (min-width: 900px) { .close__link { padding-left: 1.2rem; } .close__link:first-child { padding-left: 0; } }
 a.close__link:hover { background: var(--night-2); }
