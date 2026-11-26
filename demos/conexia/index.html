@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Conexia — Panel administrador</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body><a class="skip-link" href="#main-content">Saltar al contenido</a>
+  <div class="shell">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo"><span class="brand-crop"><img src="assets/logo-conexia.png" alt="Conexia" width="1536" height="1024"></span></div>
+
+      <nav class="nav-menu" aria-label="Navegación principal"><div class="nav-section">General</div>
+      <button type="button" class="nav-item active" data-view="dashboard" onclick="switchView('dashboard',this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="14" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="3" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/><rect x="14" y="14" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.3"/></svg>
+        Panel general
+      </button>
+      <button type="button" class="nav-item" data-view="comunidades" onclick="switchView('comunidades',this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><rect x="9" y="14" width="6" height="7" rx="0.5" stroke="currentColor" stroke-width="1.3"/></svg>
+        Comunidades
+      </button>
+
+      <div class="nav-section">Gestión</div>
+      <button type="button" class="nav-item" data-view="incidencias" onclick="switchView('incidencias',this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.3"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Incidencias
+        
+      </button>
+      <button type="button" class="nav-item" data-view="comunicaciones" onclick="switchView('comunicaciones',this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Comunicaciones
+        
+      </button>
+      <button type="button" class="nav-item" data-view="documentos" onclick="switchView('documentos',this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.3"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Documentos
+      </button>
+      <button type="button" class="nav-item" data-view="firmas" onclick="switchView('firmas',this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path d="M17 3a2.83 2.83 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Firmas
+        
+      </button>
+
+      <div class="nav-section">Configuración</div>
+      <button type="button" class="nav-item" data-view="ajustes" onclick="switchView('ajustes',this)">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        Ajustes
+      </button>
+
+      </nav><div class="sidebar-footer">
+        <div class="avatar-row">
+          <div class="avatar">CM</div>
+          <div>
+            <div class="avatar-name-main">Carlos M.</div>
+            <div class="avatar-role">Administrador</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <div id="topbar-title" class="topbar-title">Vista general</div>
+        <div class="topbar-right">
+          <button class="btn-primary-sm" onclick="switchView('nueva-comunidad',null)">+ Nueva comunidad</button>
+        </div>
+      </header>
+
+      <div class="content" id="main-content" tabindex="-1"></div>
+    </main>
+  </div>
+
+  <dialog id="record-dialog" aria-labelledby="record-title"></dialog><script src="data.js"></script>
+  <script src="views/dashboard.js"></script>
+  <script src="views/comunidades.js"></script>
+  <script src="views/incidencias.js"></script>
+  <script src="views/nueva-comunidad.js"></script>
+  <script src="views/placeholder.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

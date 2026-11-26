@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Presentación académica interactiva del proceso de cita médica en el SERMAS.">
+  <title>SERMAS · Gestión de citas médicas</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="models.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="top"><div class="wrap top-inner">
+    <a class="brand" href="#inicio"><span aria-hidden="true">✚</span> SERMAS <small>Proyecto académico</small></a>
+    <nav aria-label="Secciones"><a href="#caso">El caso</a><a href="#modelos">BPMN</a><a href="#demo">Simulación</a><a href="#seguimiento">Seguimiento</a></nav>
+  </div></header>
+  <main id="inicio">
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow">Universidad Rey Juan Carlos · Grupo D</p>
+          <h1>Gestión de<br>citas médicas</h1>
+          <p class="lead">Del proceso actual a una propuesta para gestionar mejor las citas del Servicio Madrileño de Salud.</p>
+          <div class="actions"><a class="button" href="#modelos">Explorar los modelos</a><a class="button secondary" href="#demo">Probar la simulación</a></div>
+          <p class="course">Ingeniería de Procesos de Negocio</p>
+        </div>
+        <div class="hero-art">
+          <img class="logo" src="sermas.webp" alt="Servicio Madrileño de Salud">
+          <img class="doctor" src="medica.webp" alt="">
+        </div>
+      </div>
+    </section>
+    <section id="caso" class="section wrap">
+      <div class="intro">
+        <div>
+          <p class="eyebrow">Identificación y análisis</p>
+          <h2>El primer contacto con el sistema sanitario</h2>
+          <p>La gestión de citas conecta al paciente con el sistema SERMAS, el personal administrativo y el personal sanitario. El proceso empieza con la solicitud y termina con la confirmación de la cita o una respuesta sobre la disponibilidad.</p>
+          <ul class="issues"><li>Demoras y saturación de los canales</li><li>Dificultades de acceso digital</li><li>Poca flexibilidad para cambiar o cancelar una cita</li><li>Huecos de agenda que pueden quedar sin cubrir</li></ul>
+        </div>
+        <img class="consult" src="consulta.webp" alt="Profesional sanitaria atendiendo a dos personas" loading="lazy">
+      </div>
+      <div class="references">
+        <details><summary>Modelo Canvas</summary><img src="canvas.webp" alt="Modelo Canvas de SERMAS" loading="lazy"></details>
+        <details><summary>Modelo e3value</summary><img src="e3value.webp" alt="Intercambios de valor entre los actores" loading="lazy"></details>
+        <details><summary>Mapa de procesos</summary><img src="procesos.webp" alt="Procesos de gestión, asistenciales y de soporte" loading="lazy"></details>
+      </div>
+    </section>
+    <section id="modelos" class="section model-section">
+      <div class="wrap">
+        <p class="eyebrow">Descubrimiento y rediseño</p>
+        <h2>El proceso, antes y después</h2>
+        <p>Compara los modelos originales y selecciona una mejora para localizarla en el diagrama.</p>
+        <div class="viewer">
+          <div class="viewer-head">
+            <div class="model-switch" aria-label="Modelo BPMN">
+              <button type="button" data-model="AS-IS" aria-pressed="true">Proceso actual <span>AS-IS</span></button>
+              <button type="button" data-model="TO-BE" aria-pressed="false">Proceso propuesto <span>TO-BE</span></button>
+            </div>
+            <a id="download" href="as-is.bpmn" download>Descargar BPMN</a>
+          </div>
+          <div class="graph">
+            <canvas id="diagram" tabindex="0" aria-label="Diagrama BPMN del proceso actual. Usa las flechas para desplazarte y las teclas más y menos para hacer zoom."></canvas>
+            <div class="zoom"><button type="button" id="minus" aria-label="Alejar">−</button><button type="button" id="plus" aria-label="Acercar">+</button><button type="button" id="fit">Ajustar</button></div>
+          </div>
+          <p class="viewer-note" id="model-note" aria-live="polite">El modelo actual incluye la solicitud por web, app o teléfono, la confirmación y un recordatorio 24 horas antes.</p>
+        </div>
+        <div class="improvements" aria-label="Mejoras del modelo propuesto">
+          <button type="button" data-feature="phone" aria-pressed="false">Mensaje y devolución de llamada</button>
+          <button type="button" data-feature="schedule" aria-pressed="false">Franja recomendada</button>
+          <button type="button" data-feature="waiting" aria-pressed="false">Aviso a la lista de espera</button>
+        </div>
+      </div>
+    </section>
+    <section id="demo" class="section wrap demo">
+      <div>
+        <p class="eyebrow">Simulación · Datos ficticios</p>
+        <h2>¿Qué pasa cuando se libera una cita?</h2>
+        <p>Prueba el recorrido de un paciente con la agenda completa. Una cancelación permite ofrecer el hueco a la primera persona en la lista de espera.</p>
+        <a href="#modelos" id="show-flow">Ver este recorrido en el BPMN</a>
+      </div>
+      <div class="demo-panel">
+        <div class="demo-head"><strong>Agenda de atención primaria</strong><button class="text-button" type="button" id="reset">Reiniciar</button></div>
+        <dl class="slots"><div><dt>09:00</dt><dd>Ocupada</dd></div><div><dt>10:30</dt><dd id="slot">Ocupada</dd></div><div><dt>12:00</dt><dd>Ocupada</dd></div></dl>
+        <p id="demo-message" role="status"></p>
+        <button type="button" class="button" id="demo-next"></button>
+      </div>
+    </section>
+    <section class="section follow" id="seguimiento">
+      <div class="wrap">
+        <p class="eyebrow">Implementación y monitorización</p>
+        <h2>Cómo evaluar el rediseño</h2>
+        <p>El personal administrativo necesitaría formación para gestionar devoluciones de llamada y excepciones. El sistema tendría que coordinar la agenda, la lista de espera y los avisos.</p>
+        <div class="metrics">
+          <article><h3>Cuadro de mando</h3><p>Tiempo medio desde la solicitud hasta la confirmación, porcentaje de cancelaciones y huecos cubiertos a través de la lista de espera.</p></article>
+          <article><h3>Alertas operativas</h3><p>Avisos al equipo responsable cuando la espera supere el umbral acordado o se acumulen citas sin atender.</p></article>
+          <article><h3>Encuesta de satisfacción</h3><p>Tras la cita, preguntar por la facilidad para reservar, cambiar o cancelar y por la valoración del servicio.</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="wrap footer"><strong>SERMAS · Gestión de citas médicas</strong><span>Práctica académica · Grupo D · Universidad Rey Juan Carlos</span></footer>
+</body>
+</html>
