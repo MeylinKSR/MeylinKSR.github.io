@@ -22,24 +22,25 @@
   /* ---------- Experiencia ---------- */
   var JOBS = [
     {
-      co: "Cloud Worldwide Services", role: "Ingeniera de Producto · prácticas", when: "oct. 2025 – feb. 2026",
-      tags: ["Power BI", "DAX", "Azure DevOps", "QA"],
-      short: "Dashboards en Power BI para seguir el uso de productos de IA, voz y biometría.",
+      co: "Cloud Worldwide Services", role: "Product Engineer · prácticas", when: "oct. 2025 – feb. 2026",
+      tags: ["Power BI", "DAX", "Modelado de datos", "Azure DevOps", "IA"],
+      short: "Producto tecnológico: dashboards en Power BI, documentación funcional y soluciones con IA.",
       more: [
-        "Medidas DAX para detectar caídas de uso y ver la actividad de cada empresa.",
-        "Seguimiento de funcionalidades e hitos en Azure DevOps.",
+        "Dashboards en Power BI y modelado de datos para seguir el uso de productos de IA, voz y biometría.",
         "Documentación funcional, análisis de requisitos y pruebas de calidad.",
-        "Los dashboards son internos, por eso no aparecen aquí.",
+        "Apoyo en diseño de interfaces y seguimiento en Azure DevOps.",
+        "Aprendí cómo se conectan las necesidades del negocio, los datos y el producto digital.",
       ],
     },
     {
-      co: "PinkStone Advertisement Group", role: "Marketing Digital · formación dual", when: "jul. 2021 – may. 2022",
-      tags: ["Google Ads", "Meta Ads", "Google Analytics", "SEO"],
-      short: "Entre 5 y 10 campañas de Google Ads y Meta Ads a la vez para pequeños negocios.",
+      co: "PinkStone Advertisement Group", role: "Marketing Operations & Content · prácticas", when: "jul. 2021 – may. 2022",
+      tags: ["Google Ads", "Meta Ads", "SEO", "WordPress", "Analítica"],
+      short: "Marketing digital: campañas, SEO, contenidos y análisis de resultados.",
       more: [
-        "Clientes de restauración, calzado, moda y eventos deportivos.",
+        "Seguimiento de campañas en Google Ads y Meta Ads para pequeños negocios.",
+        "Posicionamiento SEO, creación de contenidos y gestión de webs en WordPress.",
         "Informes de resultados con Google Analytics y Excel.",
-        "Contenidos SEO en WordPress.",
+        "Mi primer contacto con el mundo profesional y con lo importante que es entender al cliente.",
       ],
     },
   ];
@@ -251,30 +252,99 @@
     );
   }
 
+  var ICON = {
+    data: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+    mkt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11v2l13 5V6L3 11zM16 9a3 3 0 010 6M6 13l1 6h3l-1-5"/></svg>',
+    prod: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
+    proc: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.5 11l9-5M7.5 13l9 5"/></svg>',
+    lang: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg>',
+  };
+
   function viewAbout() {
-    var tools = [
-      ["Analítica", ["Power BI", "DAX", "Google Analytics", "Excel", "SQL básico"]],
-      ["Marketing", ["Google Ads", "Meta Ads", "SEO", "WordPress", "Canva"]],
-      ["Producto y procesos", ["Azure DevOps", "Figma", "BPMN", "Kotlin"]],
-      ["Idiomas", ["Español nativo", "Inglés B2"]],
+    var steps = [
+      { y: "2020–2022", t: "FP Superior en Marketing y Publicidad", s: "Formación dual", d: "Conocí la empresa desde el lado comercial y estratégico, con prácticas reales en una agencia." },
+      { y: "2022–hoy", t: "Grado en Ciencia, Gestión e Ingeniería de Servicios", s: "URJC · asignaturas terminadas, TFG en curso", d: "Tecnología, gestión empresarial, análisis de datos, diseño de servicios y experiencia de usuario." },
+      { y: "Ahora", t: "Mi primera oportunidad profesional", s: "Hacia dónde voy", d: "Un equipo donde seguir aprendiendo, asumir responsabilidad poco a poco y trabajar en proyectos con impacto real." },
     ];
+    var how = [
+      ["◎", "Miro el problema desde varios lados", "No me quedo en el dato: quiero entender qué hay detrás y qué necesidad hay que resolver."],
+      ["▦", "Hago visual lo complejo", "Disfruto convirtiendo información enrevesada en algo claro, visual y práctico."],
+      ["✦", "Curiosa y detallista", "Me gusta entender cómo funcionan las cosas, cuestionarlas y buscar cómo mejorarlas."],
+      ["↗", "Aprendo por mi cuenta", "Tengo iniciativa para probar herramientas nuevas y sacar proyectos propios."],
+    ];
+    var areas = ["Producto", "Business Intelligence y datos", "Marketing analítico", "Experiencia de cliente", "Consultoría y procesos", "Transformación digital"];
+    var tools = [
+      [ICON.data, "Datos", ["Power BI", "DAX", "Google Analytics", "Excel", "SQL básico"]],
+      [ICON.mkt, "Marketing", ["Google Ads", "Meta Ads", "SEO", "WordPress", "Canva"]],
+      [ICON.prod, "Producto", ["Azure DevOps", "Figma", "Documentación funcional", "Kotlin"]],
+      [ICON.proc, "Procesos", ["BPMN", "Modelo Canvas", "e3value"]],
+      [ICON.lang, "Idiomas", ["Español nativo", "Inglés B2, mejorándolo"]],
+    ];
+    var likes = [["📚", "Leer"], ["✈️", "Viajar"], ["🎧", "Música y conciertos"], ["🎮", "Videojuegos narrativos"], ["📺", "Series"], ["🧁", "Repostería"], ["✂️", "Proyectos manuales"], ["🇬🇧", "Practicar inglés"]];
     return (
-      '<div class="view">' +
-      '<section class="section--top"><div class="wrap">' +
-      '<h1 class="page-title">Sobre mí</h1>' +
-      '<p class="about-one">Empecé en marketing digital y descubrí que lo que más me gustaba era entender <em>qué funciona y por qué</em>. Eso me llevó a producto y a los datos.</p>' +
+      '<div class="view about">' +
+      '<section class="section--top"><div class="wrap about-top">' +
+      '<div><p class="eyebrow">Sobre mí</p>' +
+      '<h1 class="about-hook">Me gusta entender <em>qué hay detrás</em> de los datos y convertirlo en algo útil.</h1>' +
+      '<p class="about-sub">Conecto tecnología, personas y negocio. Vengo del marketing, he pasado por producto y ahora termino el TFG.</p>' +
+      '<div class="actions"><a class="btn btn--small" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ' + EXT + '</a>' +
+      '<a class="btn btn--small btn--ghost" href="mailto:meylinkarinasotoreyes@gmail.com">Escríbeme</a></div></div>' +
+      '<div class="status"><span class="status__dot" aria-hidden="true"></span><b>Buscando mi primera oportunidad</b><span>Madrid</span></div>' +
       "</div></section>" +
+
       '<section class="section section--tight"><div class="wrap">' +
-      '<div class="shead"><h2 class="section__title">Trayectoria</h2></div>' + timeline() +
+      '<div class="shead"><h2 class="section__title">Mi camino</h2><p class="shead__note">Pulsa cada paso.</p></div>' +
+      '<div class="path" data-path><ol class="path__steps" role="tablist">' +
+      steps.map(function (st, i) {
+        return '<li><button type="button" role="tab" class="path__step" aria-selected="' + (i === 0) + '" data-i="' + i + '"><span class="path__y">' + st.y + '</span><span class="path__t">' + st.t + "</span></button></li>";
+      }).join("") +
+      '</ol><div class="path__panel" role="tabpanel" aria-live="polite">' +
+      steps.map(function (st, i) {
+        return '<div class="path__card"' + (i ? " hidden" : "") + ' data-p="' + i + '"><span class="path__s">' + st.s + "</span><p>" + st.d + "</p></div>";
+      }).join("") +
+      "</div></div>" +
       "</div></section>" +
+
       '<section class="section section--paper section--tight"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Cómo trabajo</h2></div>' +
+      '<div class="how">' + how.map(function (h) {
+        return '<article class="how__card reveal"><span class="how__i" aria-hidden="true">' + h[0] + "</span><h3>" + h[1] + "</h3><p>" + h[2] + "</p></article>";
+      }).join("") + "</div>" +
+      '<div class="seek"><b>Qué busco</b>' + chips(areas, "chips--seek") + '<span class="seek__note">Y abierta a otros puestos donde encaje.</span></div>' +
+      "</div></section>" +
+
+      '<section class="section section--tight"><div class="wrap">' +
       '<div class="shead"><h2 class="section__title">Experiencia</h2><p class="shead__note">Pulsa cada una para ver el detalle.</p></div>' + jobs() +
       "</div></section>" +
-      '<section class="section section--tight"><div class="wrap">' +
+
+      '<section class="section section--paper section--tight"><div class="wrap">' +
       '<div class="shead"><h2 class="section__title">Herramientas</h2></div>' +
-      '<div class="toolgrid">' + tools.map(function (t) { return '<div class="toolset"><h3>' + t[0] + "</h3>" + chips(t[1]) + "</div>"; }).join("") + "</div>" +
-      "</div></section></div>"
+      '<div class="toolgrid">' + tools.map(function (t) { return '<div class="toolset"><h3><span class="toolset__i">' + t[0] + "</span>" + t[1] + "</h3>" + chips(t[2]) + "</div>"; }).join("") + "</div>" +
+      "</div></section>" +
+
+      '<section class="section section--tight"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Fuera del trabajo</h2></div>' +
+      '<ul class="likes">' + likes.map(function (l) { return '<li><span aria-hidden="true">' + l[0] + "</span>" + l[1] + "</li>"; }).join("") + "</ul>" +
+      "</div></section>" +
+
+      '<section class="cta"><div class="wrap cta__in"><p class="cta__t">¿Hablamos<span class="dot">?</span></p>' +
+      '<div class="actions"><a class="btn btn--lilac" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ' + EXT + '</a>' +
+      '<a class="btn btn--ghost-light" href="mailto:meylinkarinasotoreyes@gmail.com">meylinkarinasotoreyes@gmail.com</a></div></div></section>' +
+      "</div>"
     );
+  }
+
+  function setupPath() {
+    var box = main.querySelector("[data-path]");
+    if (!box) return;
+    var btns = box.querySelectorAll(".path__step");
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        var i = b.getAttribute("data-i");
+        btns.forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
+        box.querySelectorAll(".path__card").forEach(function (c) { c.hidden = c.getAttribute("data-p") !== i; });
+      });
+    });
   }
 
   /* ---------- Router ---------- */
@@ -310,7 +380,7 @@
     else swap();
   }
 
-  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); }
+  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); setupPath(); }
 
   /* Aparición suave al hacer scroll: solo para lo que aún no está en pantalla */
   var io = null;
