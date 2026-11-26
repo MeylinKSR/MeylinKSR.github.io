@@ -186,18 +186,20 @@ window.PROJECTS = [
   },
   {
     slug: "sermas-citas",
-    title: "Citas médicas en el SERMAS",
+    bpm: true,
+    title: "Rediseño del proceso de gestión de citas médicas del SERMAS",
     kicker: "Ingeniería de Procesos de Negocio · URJC",
     discipline: "Procesos",
-    year: "",
-    tools: ["BPMN", "Modelo Canvas", "e3value"],
+    year: "2024–2025",
+    tools: ["BPMN 2.0", "Business Model Canvas", "e3value", "Process Landscape"],
+    meta: "Caso de estudio BPM: análisis del proceso de citas médicas del SERMAS con Canvas, e3value y Process Landscape, modelos BPMN AS-IS y TO-BE y cuatro mejoras propuestas.",
     summary:
-      "Análisis del proceso de cita en atención primaria y una propuesta TO-BE para cubrir los huecos que deja una cancelación.",
+      "Ciclo BPM completo sobre la gestión de citas en atención primaria: del Canvas y el e3value a los modelos AS-IS y TO-BE, con cuatro mejoras y cómo medirlas.",
     cover: "assets/img/sermas-cover.webp",
     coverAlt: "Portada de la web del proyecto de gestión de citas médicas.",
     demo: "demos/sermas/index.html",
     demoLabel: "Compara el proceso actual con el propuesto y prueba la simulación de la lista de espera.",
-    role: "Trabajo en grupo (Grupo D)",
+    role: "Trabajo en grupo",
     sections: [
       {
         h: "El problema",
