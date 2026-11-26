@@ -200,6 +200,10 @@
   }
 
   function viewCase(p) {
+    if (p.bi && window.renderBICase && (window.BI_CASES || {})[p.slug]) {
+      var nx = P[(P.indexOf(p) + 1) % P.length];
+      return window.renderBICase(p, demoBlock(p), '<a class="next" href="#p-' + nx.slug + '"><div class="wrap"><span class="next__l">Siguiente proyecto</span><span class="next__t">' + esc(nx.title) + " " + ARROW + "</span></div></a>");
+    }
     var i = P.indexOf(p), next = P[(i + 1) % P.length];
     var hasDemo = p.embed || p.demo;
     var visual = p.notes
@@ -540,6 +544,8 @@
     var swap = function () {
       main.innerHTML = html;
       document.title = title;
+      var md = document.querySelector('meta[name="description"]');
+      if (md) { if (!md.getAttribute("data-def")) md.setAttribute("data-def", md.getAttribute("content")); md.setAttribute("content", (h.indexOf("p-") === 0 && P.filter(function (x) { return "p-" + x.slug === h; })[0] || {}).meta || md.getAttribute("data-def")); }
       window.scrollTo(0, 0);
       afterRender();
     };
@@ -547,7 +553,7 @@
     else swap();
   }
 
-  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); setupAbout(); }
+  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); setupAbout(); if (window.setupBICase) window.setupBICase(main); }
 
   /* Aparición suave al hacer scroll: solo para lo que aún no está en pantalla */
   var io = null;
