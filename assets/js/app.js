@@ -301,6 +301,24 @@
   ];
 
 
+  /* Mis aficiones: mini tarjetas; cada una abre su apartado (se construye al primer clic) */
+  var HOBBIES = [
+    { k: "tickets", e: "🎤", t: "Conciertos", n: function (M) { return M.conciertos.length + " conciertos"; } },
+    { k: "shelf", e: "📚", t: "Lectura", n: function (M) { return M.libros.length + " libros"; } },
+    { k: "tv", e: "📺", t: "Series y juegos", n: function (M) { return (M.series.length + M.juegos.length) + " títulos"; } },
+    { k: "trips", e: "✈️", t: "Viajes", n: function (M) { var d = {}; M.viajes.forEach(function (v) { d[v.destino] = 1; }); return Object.keys(d).length + " destinos"; } },
+    { k: "recipe", e: "🧁", t: "Repostería", n: function (M) { return M.postres.length + " recetas"; } },
+  ];
+  function hobbyCards() {
+    var M = window.MESA; if (!M) return "";
+    return '<div class="hob" role="group" aria-label="Mis aficiones">' +
+      HOBBIES.map(function (h) {
+        return '<button type="button" class="hob__c" data-k="' + h.k + '" aria-expanded="false" aria-controls="hobbyPanel">' +
+          '<span class="hob__e" aria-hidden="true">' + h.e + '</span><span class="hob__t">' + h.t + '</span><span class="hob__n">' + h.n(M) + "</span></button>";
+      }).join("") + "</div>" +
+      '<div class="hob__panel" id="hobbyPanel" hidden></div>';
+  }
+
   function viewAbout() {
     var tri = TRI;
     return (
@@ -378,15 +396,8 @@
 
       /* 5 · Fuera del trabajo */
       '<section class="mx-sec mx-life" id="mxLife" aria-labelledby="mxL"><div class="wrap">' +
-      '<div class="mx-head"><h2 id="mxL">Fuera del trabajo</h2><p class="hand">mi mesa, tal cual</p></div>' +
-      '<button type="button" class="hobby" id="hobbyToggle" aria-expanded="false" aria-controls="hobbyPanel">' +
-        '<span class="hobby__t">Mis aficiones</span>' +
-        '<span class="hobby__s">Conciertos, libros, series y videojuegos, viajes y repostería.</span>' +
-        '<span class="hobby__cta"><span class="hobby__open">Abrir mi mesa</span><span class="hobby__close">Cerrar</span><i aria-hidden="true"></i></span>' +
-      "</button>" +
-      '<div class="hobby__panel" id="hobbyPanel" hidden>' +
-        '<p class="mx-life__intro">Cada cosa de esta mesa es algo que me gusta. Toca, arrastra y abre lo que quieras.</p>' +
-      "</div>" +
+      '<div class="mx-head"><h2 id="mxL">Fuera del trabajo</h2><p class="hand">mis aficiones</p></div>' +
+      hobbyCards() +
       '<div class="mx-close"><p>Siempre estoy abierta a conocer proyectos, ideas y oportunidades nuevas.</p>' +
       '<a class="btn btn--small" href="#contacto">Escríbeme</a><a class="btn btn--small btn--ghost" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ↗</a></div>' +
       "</div></section>" +
@@ -486,15 +497,20 @@
     });
     pickWay(0);
 
-    /* Mis aficiones: la mesa se construye solo al abrirla (así las imágenes no se cargan hasta entonces) */
-    var hb = main.querySelector("#hobbyToggle"), hp = main.querySelector("#hobbyPanel"), built = false;
-    if (hb) hb.addEventListener("click", function () {
-      var open = hb.getAttribute("aria-expanded") !== "true";
-      hb.setAttribute("aria-expanded", String(open)); hp.hidden = !open;
-      if (open && !built && window.renderMesa) {
-        built = true; hp.insertAdjacentHTML("beforeend", window.renderMesa());
-        if (window.setupMesa) window.setupMesa(hp);
-      }
+    /* Mis aficiones */
+    var hp = main.querySelector("#hobbyPanel"), hcs = main.querySelectorAll(".hob__c"), built = false;
+    hcs.forEach(function (c) {
+      c.addEventListener("click", function () {
+        var k = c.getAttribute("data-k"), open = c.getAttribute("aria-expanded") !== "true";
+        hcs.forEach(function (x) { x.setAttribute("aria-expanded", String(open && x === c)); });
+        hp.hidden = !open;
+        if (!open) return;
+        if (!built && window.renderMesa) {
+          built = true; hp.insertAdjacentHTML("beforeend", window.renderMesa());
+          if (window.setupMesa) window.setupMesa(hp);
+        }
+        hp.querySelectorAll(".desk > .obj").forEach(function (o) { o.classList.toggle("is-on", o.classList.contains("obj--" + k)); });
+      });
     });
   }
 

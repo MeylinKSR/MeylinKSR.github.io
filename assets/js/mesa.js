@@ -104,7 +104,6 @@
     return (
       '<div class="desk" id="desk">' +
       tickets(M) + shelf(M) + tv() + trips(M) + recipes(M) +
-      '<p class="desk__also" style="grid-area:also">Y también hago álbumes de recuerdos. Este apartado, en el fondo, es uno.</p>' +
       "</div>"
     );
   };
