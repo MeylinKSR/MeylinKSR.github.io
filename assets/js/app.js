@@ -237,7 +237,7 @@
   }
   function timeline() {
     var rows = [
-      ["Técnico Superior en Marketing y Publicidad", "IES Luis Buñuel · 2020–2022", bar("var(--coral)", 2020, 9, 2022, 6)],
+      ["FP Superior en Marketing y Publicidad", "IES Luis Buñuel · 2020–2022", bar("var(--coral)", 2020, 9, 2022, 6)],
       ["Marketing Digital (prácticas)", "PinkStone · 2021–2022", bar("var(--lilac-deep)", 2021, 7, 2022, 5)],
       ["Grado en Ciencia, Gestión e Ingeniería de Servicios", "URJC · TFG en abril de 2027", bar("var(--night)", 2022, 9, 2027, 4, true)],
       ["Ingeniera de Producto (prácticas)", "Cloud Worldwide Services · 2025–2026", bar("var(--mint-deep)", 2025, 10, 2026, 2)],
@@ -258,7 +258,7 @@
 
   var STAGES = [
     { id: "descubrir", n: "Descubrir", when: "2020 – 2022",
-      study: "Grado Superior en Marketing y Publicidad, en modalidad dual.",
+      study: "FP Superior en Marketing y Publicidad, en modalidad dual.",
       did: "Prácticas en PinkStone (Marketing Operations & Content): SEO, contenidos, Google Ads, Facebook Ads, Google Analytics, informes y WordPress.",
       learnt: "Lo importante que es entender lo que necesita cada cliente." },
     { id: "aprender", n: "Aprender", when: "2022 – hoy",
