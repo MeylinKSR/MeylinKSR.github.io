@@ -300,11 +300,6 @@
       ex: "En SERMAS propusimos un cuadro de mando para medir si el rediseño funcionaba de verdad.", slug: "sermas-citas" },
   ];
 
-  var SNAPS = [
-    { img: "assets/img/meylin-londres.webp", alt: "Meylin en Londres, junto al Big Ben.", tag: "Londres", note: "Viajar y descubrir sitios nuevos es de lo que más me gusta." },
-    { img: "assets/img/meylin-concierto.webp", alt: "Meylin en un concierto, con el escenario detrás.", tag: "En directo", note: "Música pop y conciertos siempre que puedo." },
-    { img: "assets/img/meylin-loki.webp", alt: "Meylin en una exposición de series, junto al casco de Loki.", tag: "Buenas historias", note: "Series, libros y videojuegos narrativos." },
-  ];
 
   function viewAbout() {
     var tri = TRI;
@@ -383,14 +378,9 @@
 
       /* 5 · Fuera del trabajo */
       '<section class="mx-sec mx-life" id="mxLife" aria-labelledby="mxL"><div class="wrap">' +
-      '<div class="mx-head"><h2 id="mxL">Fuera del trabajo</h2><p class="hand">toca una foto</p></div>' +
-      '<div class="snaps">' + SNAPS.map(function (sn, i) {
-        return '<figure class="snap snap--' + i + '"><button type="button" class="snap__btn" aria-expanded="false">' +
-          '<span class="tape" aria-hidden="true"></span><img src="' + sn.img + '" alt="' + esc(sn.alt) + '" loading="lazy" width="600" height="750">' +
-          '<span class="snap__note hand">' + esc(sn.note) + "</span></button>" +
-          '<figcaption>' + sn.tag + "</figcaption></figure>";
-      }).join("") + "</div>" +
-      '<p class="mx-life__txt">También me gusta hacer manualidades y proyectos creativos, cocinar (sobre todo postres) y aprender cosas nuevas. Ahora mismo, sobre todo, inglés.</p>' +
+      '<div class="mx-head"><h2 id="mxL">Fuera del trabajo</h2><p class="hand">mi mesa, tal cual</p></div>' +
+      '<p class="mx-life__intro">Cada cosa de esta mesa es algo que me gusta. Toca, arrastra y abre lo que quieras.</p>' +
+      (window.renderMesa ? window.renderMesa() : "") +
       '<div class="mx-close"><p>Siempre estoy abierta a conocer proyectos, ideas y oportunidades nuevas.</p>' +
       '<a class="btn btn--small" href="#contacto">Escríbeme</a><a class="btn btn--small btn--ghost" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ↗</a></div>' +
       "</div></section>" +
@@ -490,13 +480,7 @@
     });
     pickWay(0);
 
-    /* Fotos */
-    main.querySelectorAll(".snap__btn").forEach(function (b) {
-      b.addEventListener("click", function () {
-        var open = b.getAttribute("aria-expanded") !== "true";
-        b.setAttribute("aria-expanded", String(open));
-      });
-    });
+    if (window.setupMesa) window.setupMesa(main);
   }
 
   /* ---------- Router ---------- */
@@ -644,6 +628,7 @@
     document.body.style.overflow = "hidden";
   }
   function closeModal() { if (dlg.open) dlg.close(); }
+  window.meyZoom = function (src, alt) { openModal(alt, '<img class="modal__img" src="' + esc(src) + '" alt="' + esc(alt) + '">', null, null); };
   dlg.addEventListener("close", function () { document.getElementById("modalBody").innerHTML = ""; document.body.style.overflow = ""; });
   document.getElementById("modalX").addEventListener("click", closeModal);
   document.getElementById("modalCase").addEventListener("click", closeModal);
