@@ -379,8 +379,14 @@
       /* 5 · Fuera del trabajo */
       '<section class="mx-sec mx-life" id="mxLife" aria-labelledby="mxL"><div class="wrap">' +
       '<div class="mx-head"><h2 id="mxL">Fuera del trabajo</h2><p class="hand">mi mesa, tal cual</p></div>' +
-      '<p class="mx-life__intro">Cada cosa de esta mesa es algo que me gusta. Toca, arrastra y abre lo que quieras.</p>' +
-      (window.renderMesa ? window.renderMesa() : "") +
+      '<button type="button" class="hobby" id="hobbyToggle" aria-expanded="false" aria-controls="hobbyPanel">' +
+        '<span class="hobby__t">Mis aficiones</span>' +
+        '<span class="hobby__s">Conciertos, libros, series y videojuegos, viajes y repostería.</span>' +
+        '<span class="hobby__cta"><span class="hobby__open">Abrir mi mesa</span><span class="hobby__close">Cerrar</span><i aria-hidden="true"></i></span>' +
+      "</button>" +
+      '<div class="hobby__panel" id="hobbyPanel" hidden>' +
+        '<p class="mx-life__intro">Cada cosa de esta mesa es algo que me gusta. Toca, arrastra y abre lo que quieras.</p>' +
+      "</div>" +
       '<div class="mx-close"><p>Siempre estoy abierta a conocer proyectos, ideas y oportunidades nuevas.</p>' +
       '<a class="btn btn--small" href="#contacto">Escríbeme</a><a class="btn btn--small btn--ghost" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ↗</a></div>' +
       "</div></section>" +
@@ -480,7 +486,16 @@
     });
     pickWay(0);
 
-    if (window.setupMesa) window.setupMesa(main);
+    /* Mis aficiones: la mesa se construye solo al abrirla (así las imágenes no se cargan hasta entonces) */
+    var hb = main.querySelector("#hobbyToggle"), hp = main.querySelector("#hobbyPanel"), built = false;
+    if (hb) hb.addEventListener("click", function () {
+      var open = hb.getAttribute("aria-expanded") !== "true";
+      hb.setAttribute("aria-expanded", String(open)); hp.hidden = !open;
+      if (open && !built && window.renderMesa) {
+        built = true; hp.insertAdjacentHTML("beforeend", window.renderMesa());
+        if (window.setupMesa) window.setupMesa(hp);
+      }
+    });
   }
 
   /* ---------- Router ---------- */

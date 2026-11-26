@@ -98,50 +98,14 @@
     );
   }
 
-  function mandala() {
-    var petals = "", n = 0;
-    var rings = [[12, 30, 9], [12, 21, 7], [8, 12, 5.5]];
-    rings.forEach(function (r, ri) {
-      for (var k = 0; k < r[0]; k++) {
-        var a = (360 / r[0]) * k + (ri === 1 ? 15 : 0);
-        petals += '<ellipse class="mp" data-m="' + n++ + '" cx="50" cy="' + (50 - r[1]) + '" rx="' + (r[2] * 0.55) + '" ry="' + r[2] + '" transform="rotate(' + a + ' 50 50)"/>';
-      }
-    });
-    petals += '<circle class="mp" data-m="' + n++ + '" cx="50" cy="50" r="5"/>';
-    var sw = ["var(--coral)", "var(--lilac)", "var(--mint)", "var(--lilac-deep)", "var(--night)", "var(--ivory)"];
-    return (
-      '<div class="obj obj--mandala" style="grid-area:mand">' +
-      '<p class="obj__tag hand">mandalas</p>' +
-      '<svg class="mandala" id="mandala" viewBox="0 0 100 100" role="img" aria-label="Mandala para colorear">' +
-      '<circle cx="50" cy="50" r="46" class="mandala__ring"/>' + petals + "</svg>" +
-      '<div class="pal" role="radiogroup" aria-label="Color">' +
-      sw.map(function (c, i) { return '<button type="button" role="radio" class="pal__c" style="--c:' + c + '" data-col="' + c + '" aria-checked="' + (i === 0) + '" aria-label="Color ' + (i + 1) + '"></button>'; }).join("") +
-      "</div>" +
-      '<div class="mand-acts"><button type="button" class="mini-btn" id="mRandom">Colorear al azar</button><button type="button" class="mini-btn" id="mReset">Borrar</button></div>' +
-      "</div>"
-    );
-  }
-
-  function leo(M) {
-    if (!M.leo) return "";
-    return (
-      '<div class="leo" id="leo" style="grid-area:leo" hidden>' +
-      '<div class="leo__bubble hand" id="leoSay" aria-live="polite"></div>' +
-      '<button type="button" class="leo__face" id="leoFace" aria-label="Leo, supervisor oficial de MEY. Pulsa para hablar con él."><img id="leoImg" src="' + esc(M.leo.normal) + '" alt=""></button>' +
-      '<p class="leo__title"><b>Leo</b> · supervisor oficial de MEY</p>' +
-      '<div class="leo__acts"><button type="button" class="mini-btn" id="leoFood">Darle comida</button><button type="button" class="mini-btn" id="leoNap">Dejarle dormir</button></div>' +
-      "</div>"
-    );
-  }
-
   window.renderMesa = function () {
     var M = window.MESA;
     if (!M) return "";
     return (
       '<div class="desk" id="desk">' +
-      tickets(M) + shelf(M) + tv() + trips(M) + recipes(M) + mandala() + leo(M) +
-      "</div>" +
-      '<p class="desk__also">Y también hago álbumes de recuerdos. Este apartado, en el fondo, es uno.</p>'
+      tickets(M) + shelf(M) + tv() + trips(M) + recipes(M) +
+      '<p class="desk__also" style="grid-area:also">Y también hago álbumes de recuerdos. Este apartado, en el fondo, es uno.</p>' +
+      "</div>"
     );
   };
 
@@ -212,6 +176,8 @@
       });
     }
     spines.forEach(function (s) { s.addEventListener("click", function () { openBook(s); }); });
+    /* Precarga de portadas en segundo plano, para que al tocar un lomo ya estén listas */
+    M.libros.concat([M.proximoLibro]).forEach(function (b, i) { setTimeout(function () { findCover(b, function () {}); }, 150 * i); });
 
     /* Pantalla y mando */
     var scr = desk.querySelector("#tvScreen"), modeBtn = desk.querySelector('[data-tv="mode"]');
@@ -283,7 +249,6 @@
       });
       function end(e) {
         if (!drag) return; drag = null; p.classList.remove("is-drag");
-        if (overLeo(e)) leoSay("¡Eh! Que estoy supervisando.");
       }
       p.addEventListener("pointerup", end); p.addEventListener("pointercancel", end);
       p.addEventListener("click", function (e) {
@@ -321,84 +286,5 @@
     });
     pickRec(0);
 
-    /* Mandala */
-    var mand = desk.querySelector("#mandala"), petals = mand.querySelectorAll(".mp"), color = "var(--coral)", told = false;
-    var sws = desk.querySelectorAll(".pal__c");
-    sws.forEach(function (s) {
-      s.addEventListener("click", function () { color = s.getAttribute("data-col"); sws.forEach(function (x) { x.setAttribute("aria-checked", String(x === s)); }); });
-    });
-    function checkDone() {
-      var all = Array.prototype.every.call(petals, function (p) { return p.style.fill; });
-      if (all && !told) { told = true; leoSay("Bonito. ¿Y mi comida?"); }
-    }
-    mand.addEventListener("click", function (e) {
-      var p = e.target.closest(".mp"); if (!p) return;
-      p.style.fill = color; checkDone();
-    });
-    desk.querySelector("#mRandom").addEventListener("click", function () {
-      var pal = Array.prototype.map.call(sws, function (s) { return s.getAttribute("data-col"); });
-      petals.forEach(function (p, i) { p.style.fill = pal[(i * 7 + Math.floor(Math.random() * pal.length)) % pal.length]; });
-      checkDone();
-    });
-    desk.querySelector("#mReset").addEventListener("click", function () { petals.forEach(function (p) { p.style.fill = ""; }); told = false; });
-
-    /* Leo */
-    var leoBox = desk.querySelector("#leo");
-    if (!leoBox) return;
-    var say = leoBox.querySelector("#leoSay"), img = leoBox.querySelector("#leoImg"), t1 = null, phrase = 0;
-    var asleep = false;
-    try { asleep = sessionStorage.getItem("leo-nap") === "1"; } catch (e) {}
-    function leoSay(txt) {
-      if (leoBox.hidden) return;
-      say.textContent = txt; say.classList.add("is-on");
-      clearTimeout(t1); t1 = setTimeout(function () { say.classList.remove("is-on"); }, 3200);
-    }
-    window.__leoSay = leoSay;
-    function overLeo(e) {
-      if (leoBox.hidden) return false;
-      var r = leoBox.querySelector(".leo__face").getBoundingClientRect();
-      return e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-    }
-    function show() {
-      leoBox.hidden = false;
-      requestAnimationFrame(function () { leoBox.classList.add("is-in"); });
-      if (asleep) { img.src = M.leo.durmiendo; leoBox.classList.add("is-asleep"); }
-      else setTimeout(function () { leoSay(M.leo.frases[0]); }, 700);
-    }
-    if ("IntersectionObserver" in window) {
-      var io = new IntersectionObserver(function (en) {
-        if (en[0].isIntersecting) { io.disconnect(); show(); }
-      }, { threshold: 0.35 });
-      io.observe(leoBox.parentNode.querySelector(".obj--mandala") || desk);
-    } else show();
-    leoBox.querySelector("#leoFace").addEventListener("click", function () {
-      if (asleep) { leoSay("Zzz…"); return; }
-      phrase = (phrase + 1) % M.leo.frases.length; leoSay(M.leo.frases[phrase]);
-    });
-    leoBox.querySelector("#leoFood").addEventListener("click", function () {
-      if (asleep) { asleep = false; try { sessionStorage.removeItem("leo-nap"); } catch (e) {} leoBox.classList.remove("is-asleep"); }
-      img.src = M.leo.comiendo; leoBox.classList.add("is-eating"); leoSay("¡Por fin alguien con criterio!");
-      setTimeout(function () { img.src = M.leo.normal; leoBox.classList.remove("is-eating"); }, 2600);
-    });
-    leoBox.querySelector("#leoNap").addEventListener("click", function () {
-      asleep = true; try { sessionStorage.setItem("leo-nap", "1"); } catch (e) {}
-      img.src = M.leo.durmiendo; leoBox.classList.add("is-asleep"); leoSay("Mi horario de trabajo depende de mis siestas.");
-    });
-
-    /* Sorpresa: escribir "leo" despierta a Leo */
-    var typed = "";
-    function onKey(e) {
-      if (!document.body.contains(desk)) { document.removeEventListener("keydown", onKey); return; }
-      if (/input|textarea/i.test((e.target.tagName || ""))) return;
-      typed = (typed + (e.key || "")).slice(-3).toLowerCase();
-      if (typed === "leo") {
-        asleep = false; try { sessionStorage.removeItem("leo-nap"); } catch (er) {}
-        leoBox.classList.remove("is-asleep"); img.src = M.leo.normal;
-        if (leoBox.hidden) show();
-        leoSay("¿Quién me llama? Estaba supervisando.");
-        leoBox.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "center" });
-      }
-    }
-    document.addEventListener("keydown", onKey);
   };
 })();

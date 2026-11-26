@@ -76,18 +76,4 @@ window.MESA = {
     { nombre: "Tortitas", dibujo: "tortitas" },
     { nombre: "Tarta de queso", dibujo: "tarta" },
   ],
-
-  /* Leo, supervisor oficial de MEY */
-  leo: {
-    normal: "assets/img/mesa/leo-1.webp",
-    comiendo: "assets/img/mesa/leo-2.webp",
-    durmiendo: "assets/img/mesa/leo-4.webp",
-    frases: [
-      "¿Otra visita?",
-      "¿Has traído comida?",
-      "Esto de supervisar proyectos es agotador.",
-      "Mi horario de trabajo depende de mis siestas.",
-      "Puedes quedarte, pero no me molestes.",
-    ],
-  },
 };
