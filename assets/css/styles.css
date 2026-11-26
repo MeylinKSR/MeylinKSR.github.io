@@ -754,7 +754,7 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 .hob { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem; }
 .hob__c:last-child:nth-child(odd) { grid-column: span 2; }
 @media (min-width: 720px) { .hob__c:last-child:nth-child(odd) { grid-column: auto; } }
-@media (min-width: 720px) { .hob { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .7rem; } }
+@media (min-width: 720px) { .hob { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: .7rem; } }
 .hob__c { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: .7rem; align-items: center; text-align: left; padding: .75rem .85rem; background: var(--ivory); border: 1.5px solid var(--night); border-radius: 14px; color: var(--ink); cursor: pointer; font: inherit; transition: transform .2s var(--ease), background .2s; }
 .hob__c:hover { transform: translateY(-2px); }
 .hob__c[aria-expanded="true"] { background: var(--lilac); }

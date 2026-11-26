@@ -57,7 +57,9 @@ window.MESA = {
     { t: "Overcooked", wiki: "Overcooked" },
   ],
 
-  /* Viajes: solo el nombre del destino */
+  /* Viajes: solo el nombre del destino.
+     mostrarViajes: false oculta la tarjeta de Viajes. Para volver a mostrarla, cámbialo a true. */
+  mostrarViajes: false,
   viajes: [
     { destino: "Valencia", foto: "assets/img/mesa/valencia.webp", alt: "Mar entre palmeras en Valencia." },
     { destino: "Andorra", foto: "assets/img/mesa/andorra-1.webp", alt: "Carretera de montaña en Andorra." },

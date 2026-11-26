@@ -312,7 +312,7 @@
   function hobbyCards() {
     var M = window.MESA; if (!M) return "";
     return '<div class="hob" role="group" aria-label="Mis aficiones">' +
-      HOBBIES.map(function (h) {
+      HOBBIES.filter(function (h) { return !(h.k === "trips" && M.mostrarViajes === false); }).map(function (h) {
         return '<button type="button" class="hob__c" data-k="' + h.k + '" aria-expanded="false" aria-controls="hobbyPanel">' +
           '<span class="hob__e" aria-hidden="true">' + h.e + '</span><span class="hob__t">' + h.t + '</span><span class="hob__n">' + h.n(M) + "</span></button>";
       }).join("") + "</div>" +

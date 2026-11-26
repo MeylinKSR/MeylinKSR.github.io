@@ -103,7 +103,7 @@
     if (!M) return "";
     return (
       '<div class="desk" id="desk">' +
-      tickets(M) + shelf(M) + tv() + trips(M) + recipes(M) +
+      tickets(M) + shelf(M) + tv() + (M.mostrarViajes === false ? "" : trips(M)) + recipes(M) +
       "</div>"
     );
   };
@@ -232,6 +232,7 @@
     paint(); loadTv();
 
     /* Viajes: fotos arrastrables */
+    if (desk.querySelector("#pile")) (function () {
     var pile = desk.querySelector("#pile"), z = 10;
     pile.querySelectorAll(".pic").forEach(function (p) {
       var drag = null, moved = false;
@@ -267,6 +268,8 @@
         p.style.setProperty("--r", Math.round(Math.random() * 14 - 7) + "deg"); p.style.zIndex = ++z;
       });
     });
+
+    })();
 
     /* Recetario */
     var rd = desk.querySelector("#rDraw"), rits = desk.querySelectorAll(".rcard__it");
