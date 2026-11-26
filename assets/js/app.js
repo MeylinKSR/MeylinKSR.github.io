@@ -252,99 +252,111 @@
     );
   }
 
-  var ICON = {
-    data: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
-    mkt: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11v2l13 5V6L3 11zM16 9a3 3 0 010 6M6 13l1 6h3l-1-5"/></svg>',
-    prod: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
-    proc: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M7.5 11l9-5M7.5 13l9 5"/></svg>',
-    lang: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg>',
-  };
+  /* ---------- Sobre mí ----------
+     Para añadir tu foto: guarda el archivo en assets/img/ y escribe aquí su ruta,
+     por ejemplo "assets/img/meylin.webp". Mientras esté vacío, no se muestra nada. */
+  var PHOTO = "";
 
   function viewAbout() {
-    var steps = [
-      { y: "2020–2022", t: "FP Superior en Marketing y Publicidad", s: "Formación dual", d: "Conocí la empresa desde el lado comercial y estratégico, con prácticas reales en una agencia." },
-      { y: "2022–hoy", t: "Grado en Ciencia, Gestión e Ingeniería de Servicios", s: "URJC · asignaturas terminadas, TFG en curso", d: "Tecnología, gestión empresarial, análisis de datos, diseño de servicios y experiencia de usuario." },
-      { y: "Ahora", t: "Mi primera oportunidad profesional", s: "Hacia dónde voy", d: "Un equipo donde seguir aprendiendo, asumir responsabilidad poco a poco y trabajar en proyectos con impacto real." },
+    var star =
+      '<svg class="ab-star" viewBox="-17 -4 70 44" role="img" aria-label="La marca MEY como mapa: un centro unido a negocio, personas, datos, tecnología y comunicación.">' +
+      '<line x1="20" y1="20" x2="20" y2="3"/><line x1="20" y1="20" x2="35" y2="13"/><line x1="20" y1="20" x2="31" y2="34"/><line x1="20" y1="20" x2="8" y2="33"/><line x1="20" y1="20" x2="4" y2="15"/>' +
+      '<circle class="core" cx="20" cy="20" r="2.2"/>' +
+      '<circle class="node" cx="20" cy="3" r="1.1"/><circle class="node" cx="35" cy="13" r="1.1"/><circle class="node" cx="31" cy="34" r="1.1"/><circle class="node" cx="8" cy="33" r="1.1"/><circle class="node" cx="4" cy="15" r="1.1"/>' +
+      '<text x="20" y="-.4" text-anchor="middle">Negocio</text>' +
+      '<text x="37" y="13.7">Personas</text>' +
+      '<text x="33" y="37">Datos</text>' +
+      '<text x="8" y="37.4" text-anchor="middle">Tecnología</text>' +
+      '<text x="2" y="15.7" text-anchor="end">Comunicación</text>' +
+      "</svg>";
+
+    var path = [
+      { k: "study", when: "2020 – 2022", t: "Mis comienzos en marketing", what: "Grado Superior en Marketing y Publicidad, modalidad dual",
+        p: "Descubrí el marketing digital, la comunicación y el comportamiento del consumidor. Y, sobre todo, lo importante que es entender lo que necesita cada cliente." },
+      { k: "work", when: "jul. 2021 – may. 2022", t: "PinkStone", what: "Marketing Operations & Content · prácticas",
+        p: "Mi primera experiencia en una agencia: SEO, contenidos, Google Ads, Facebook Ads, Google Analytics, informes y WordPress." },
+      { k: "study", when: "2022 – hoy", t: "Ampliando la mirada", what: "Grado en Ciencia, Gestión e Ingeniería de Servicios · URJC",
+        p: "Conecté la gestión de empresas con la tecnología, los procesos, la analítica y el diseño de servicios. Ya he terminado las asignaturas." },
+      { k: "work", when: "oct. 2025 – feb. 2026", t: "Cloud Worldwide Services", what: "Product Engineer · prácticas",
+        p: "Producto digital y soluciones tecnológicas, desde los datos hasta la interfaz.",
+        more: ["Dashboards en Power BI", "Modelado y transformación de datos", "Medidas DAX y Power Query", "Indicadores de uso y comportamiento", "Documentación funcional", "Historias de usuario y requisitos", "Diseño y prototipado de interfaces", "Proyectos con inteligencia artificial"] },
+      { k: "now", when: "Ahora", t: "Mi siguiente capítulo", what: "",
+        p: "Estoy terminando el TFG, haciendo proyectos por mi cuenta y buscando mi primera oportunidad para aplicar todo lo aprendido." },
     ];
-    var how = [
-      ["◎", "Miro el problema desde varios lados", "No me quedo en el dato: quiero entender qué hay detrás y qué necesidad hay que resolver."],
-      ["▦", "Hago visual lo complejo", "Disfruto convirtiendo información enrevesada en algo claro, visual y práctico."],
-      ["✦", "Curiosa y detallista", "Me gusta entender cómo funcionan las cosas, cuestionarlas y buscar cómo mejorarlas."],
-      ["↗", "Aprendo por mi cuenta", "Tengo iniciativa para probar herramientas nuevas y sacar proyectos propios."],
+
+    var way = [
+      ["Entender", "El contexto, a quien lo usa y el problema, antes de proponer nada."],
+      ["Analizar", "Ordenar la información, buscar patrones y ver dónde se puede mejorar un proceso."],
+      ["Diseñar", "Convertir lo aprendido en algo que funcione, se entienda y esté cuidado."],
+      ["Mejorar", "Revisar el resultado, aprender de lo que falla y validar cada decisión."],
     ];
-    var areas = ["Producto", "Business Intelligence y datos", "Marketing analítico", "Experiencia de cliente", "Consultoría y procesos", "Transformación digital"];
+
+    /* em = la he usado en prácticas */
     var tools = [
-      [ICON.data, "Datos", ["Power BI", "DAX", "Google Analytics", "Excel", "SQL básico"]],
-      [ICON.mkt, "Marketing", ["Google Ads", "Meta Ads", "SEO", "WordPress", "Canva"]],
-      [ICON.prod, "Producto", ["Azure DevOps", "Figma", "Documentación funcional", "Kotlin"]],
-      [ICON.proc, "Procesos", ["BPMN", "Modelo Canvas", "e3value"]],
-      [ICON.lang, "Idiomas", ["Español nativo", "Inglés B2, mejorándolo"]],
+      ["Datos y analítica", "<em>Power BI</em>, <em>DAX</em>, <em>Power Query</em>, Excel, SQL básico"],
+      ["Producto y experiencia de usuario", "<em>Figma</em>, <em>prototipado</em>, <em>diseño de interfaces</em>, Design Thinking, UX/UI, Design Systems"],
+      ["Procesos y negocio", "BPMN, Customer Journey Map, Service Blueprint, análisis de procesos, diseño de servicios"],
+      ["Gestión de proyectos y producto", "<em>Azure DevOps</em>, <em>historias de usuario</em>, <em>documentación funcional</em>, metodologías ágiles"],
+      ["Marketing digital", "<em>Google Ads</em>, <em>Facebook Ads</em>, <em>Google Analytics</em>, <em>SEO</em>, <em>WordPress</em>, SEM"],
     ];
-    var likes = [["📚", "Leer"], ["✈️", "Viajar"], ["🎧", "Música y conciertos"], ["🎮", "Videojuegos narrativos"], ["📺", "Series"], ["🧁", "Repostería"], ["✂️", "Proyectos manuales"], ["🇬🇧", "Practicar inglés"]];
+
+    function head(n, t) { return '<header class="ab-h"><span>' + n + "</span><h2>" + t + "</h2></header>"; }
+
     return (
-      '<div class="view about">' +
-      '<section class="section--top"><div class="wrap about-top">' +
-      '<div><p class="eyebrow">Sobre mí</p>' +
-      '<h1 class="about-hook">Me gusta entender <em>qué hay detrás</em> de los datos y convertirlo en algo útil.</h1>' +
-      '<p class="about-sub">Conecto tecnología, personas y negocio. Vengo del marketing, he pasado por producto y ahora termino el TFG.</p>' +
-      '<div class="actions"><a class="btn btn--small" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ' + EXT + '</a>' +
-      '<a class="btn btn--small btn--ghost" href="mailto:meylinkarinasotoreyes@gmail.com">Escríbeme</a></div></div>' +
-      '<div class="status"><span class="status__dot" aria-hidden="true"></span><b>Buscando mi primera oportunidad</b><span>Madrid</span></div>' +
+      '<div class="view ab">' +
+      '<div class="wrap">' +
+
+      '<section class="ab-row ab-intro" aria-labelledby="abT">' +
+      '<div class="ab-h"><span>Sobre mí</span><p>Meylin Soto Reyes<br>Madrid</p>' +
+      (PHOTO ? '<figure class="ab-photo"><img src="' + esc(PHOTO) + '" alt="Meylin Soto Reyes"></figure>' : "") +
+      "</div>" +
+      "<div>" +
+      '<h1 class="ab-title" id="abT">Me gusta entender cómo funcionan las cosas y descubrir cómo hacerlas mejor.</h1>' +
+      '<p class="ab-lead">Mi formación y mi experiencia mezclan análisis, creatividad y tecnología. Me interesa mirar un problema desde varios lados y convertir la información en algo útil, fácil de entender y pensado para las personas que lo van a usar.</p>' +
+      '<p class="ab-now"><span class="mey-dot" aria-hidden="true"></span><span><b>Ahora mismo</b> estoy terminando el TFG y buscando mi primera oportunidad después de las prácticas.</span></p>' +
       "</div></section>" +
 
-      '<section class="section section--tight"><div class="wrap">' +
-      '<div class="shead"><h2 class="section__title">Mi camino</h2><p class="shead__note">Pulsa cada paso.</p></div>' +
-      '<div class="path" data-path><ol class="path__steps" role="tablist">' +
-      steps.map(function (st, i) {
-        return '<li><button type="button" role="tab" class="path__step" aria-selected="' + (i === 0) + '" data-i="' + i + '"><span class="path__y">' + st.y + '</span><span class="path__t">' + st.t + "</span></button></li>";
+      '<section class="ab-row">' + head("01", "Lo que me interesa") +
+      '<div class="ab-map">' + star +
+      '<div class="ab-areas">' +
+      '<p class="ab-list">Producto digital<i>/</i>Business Intelligence y datos<i>/</i>Marketing estratégico y analítico<i>/</i>Experiencia de cliente<i>/</i>Consultoría y procesos<i>/</i>Transformación digital</p>' +
+      "<p>No las veo como caminos separados. En todas hay que entender cómo funciona un negocio, qué necesitan las personas, qué cuentan los datos y en qué puede ayudar la tecnología. Es lo que me gusta hacer, sea cual sea el puesto.</p>" +
+      "</div></div></section>" +
+
+      '<section class="ab-row">' + head("02", "Cómo he llegado aquí") +
+      '<ol class="ab-path">' +
+      path.map(function (s) {
+        return '<li class="ab-step ab-step--' + s.k + '">' +
+          '<span class="ab-when">' + s.when + "</span>" +
+          "<h3>" + esc(s.t) + "</h3>" +
+          (s.what ? '<p class="ab-what">' + esc(s.what) + "</p>" : "") +
+          "<p>" + esc(s.p) + "</p>" +
+          (s.more ? '<details class="ab-more"><summary>Qué hacía</summary><ul>' + s.more.map(function (m) { return "<li>" + esc(m) + "</li>"; }).join("") + "</ul><small>Los dashboards y documentos son internos de la empresa; por eso no aparecen aquí.</small></details>" : "") +
+          "</li>";
       }).join("") +
-      '</ol><div class="path__panel" role="tabpanel" aria-live="polite">' +
-      steps.map(function (st, i) {
-        return '<div class="path__card"' + (i ? " hidden" : "") + ' data-p="' + i + '"><span class="path__s">' + st.s + "</span><p>" + st.d + "</p></div>";
-      }).join("") +
-      "</div></div>" +
-      "</div></section>" +
+      "</ol></section>" +
 
-      '<section class="section section--paper section--tight"><div class="wrap">' +
-      '<div class="shead"><h2 class="section__title">Cómo trabajo</h2></div>' +
-      '<div class="how">' + how.map(function (h) {
-        return '<article class="how__card reveal"><span class="how__i" aria-hidden="true">' + h[0] + "</span><h3>" + h[1] + "</h3><p>" + h[2] + "</p></article>";
-      }).join("") + "</div>" +
-      '<div class="seek"><b>Qué busco</b>' + chips(areas, "chips--seek") + '<span class="seek__note">Y abierta a otros puestos donde encaje.</span></div>' +
-      "</div></section>" +
+      '<section class="ab-row">' + head("03", "Cómo trabajo") +
+      '<div><ol class="ab-way">' + way.map(function (w) { return "<li><b>" + w[0] + "</b><span>" + w[1] + "</span></li>"; }).join("") + "</ol>" +
+      '<p class="ab-loop">Y, cuando termino, vuelvo a empezar por el primero.</p></div>' +
+      "</section>" +
 
-      '<section class="section section--tight"><div class="wrap">' +
-      '<div class="shead"><h2 class="section__title">Experiencia</h2><p class="shead__note">Pulsa cada una para ver el detalle.</p></div>' + jobs() +
-      "</div></section>" +
+      '<section class="ab-row">' + head("04", "Con qué trabajo") +
+      '<div><dl class="ab-index">' + tools.map(function (t) { return "<div><dt>" + t[0] + "</dt><dd>" + t[1] + "</dd></div>"; }).join("") + "</dl>" +
+      '<p class="ab-legend">Con punto, lo que he usado en prácticas. El resto lo he trabajado en el grado y en proyectos propios.</p></div>' +
+      "</section>" +
+      "</div>" +
 
-      '<section class="section section--paper section--tight"><div class="wrap">' +
-      '<div class="shead"><h2 class="section__title">Herramientas</h2></div>' +
-      '<div class="toolgrid">' + tools.map(function (t) { return '<div class="toolset"><h3><span class="toolset__i">' + t[0] + "</span>" + t[1] + "</h3>" + chips(t[2]) + "</div>"; }).join("") + "</div>" +
-      "</div></section>" +
+      '<div class="ab-personal"><div class="wrap"><section class="ab-row">' + head("05", "Fuera del trabajo") +
+      "<div>" +
+      '<p class="ab-voice">Me gustan las buenas historias: leo, veo series y juego a videojuegos narrativos. También escucho mucha música pop y voy a conciertos.</p>' +
+      '<p class="ab-voice">Me gusta viajar y descubrir sitios nuevos, hacer manualidades y proyectos creativos, y cocinar, sobre todo postres. Y sigo aprendiendo cosas nuevas, entre ellas mejorar mi inglés.</p>' +
+      '<div class="ab-close"><p>Siempre estoy abierta a conocer proyectos, ideas y oportunidades nuevas.</p>' +
+      '<a href="#contacto">Escríbeme</a><a href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ↗</a></div>' +
+      "</div></section></div></div>" +
 
-      '<section class="section section--tight"><div class="wrap">' +
-      '<div class="shead"><h2 class="section__title">Fuera del trabajo</h2></div>' +
-      '<ul class="likes">' + likes.map(function (l) { return '<li><span aria-hidden="true">' + l[0] + "</span>" + l[1] + "</li>"; }).join("") + "</ul>" +
-      "</div></section>" +
-
-      '<section class="cta"><div class="wrap cta__in"><p class="cta__t">¿Hablamos<span class="dot">?</span></p>' +
-      '<div class="actions"><a class="btn btn--lilac" href="https://www.linkedin.com/in/meylinsore" target="_blank" rel="noopener">LinkedIn ' + EXT + '</a>' +
-      '<a class="btn btn--ghost-light" href="mailto:meylinkarinasotoreyes@gmail.com">meylinkarinasotoreyes@gmail.com</a></div></div></section>' +
       "</div>"
     );
-  }
-
-  function setupPath() {
-    var box = main.querySelector("[data-path]");
-    if (!box) return;
-    var btns = box.querySelectorAll(".path__step");
-    btns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        var i = b.getAttribute("data-i");
-        btns.forEach(function (x) { x.setAttribute("aria-selected", String(x === b)); });
-        box.querySelectorAll(".path__card").forEach(function (c) { c.hidden = c.getAttribute("data-p") !== i; });
-      });
-    });
   }
 
   /* ---------- Router ---------- */
@@ -380,7 +392,7 @@
     else swap();
   }
 
-  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); setupPath(); }
+  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); }
 
   /* Aparición suave al hacer scroll: solo para lo que aún no está en pantalla */
   var io = null;
