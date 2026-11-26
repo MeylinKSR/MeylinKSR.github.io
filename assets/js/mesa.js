@@ -76,7 +76,7 @@
       '<p class="obj__tag hand">viajes</p>' +
       '<div class="pile" id="pile">' +
       M.viajes.map(function (v, i) {
-        return '<button type="button" class="pic" data-v="' + i + '" style="--x:' + (8 + i * 22) + "%;--y:" + (10 + (i % 2) * 14) + "%;--r:" + ((i % 2 ? 1 : -1) * (3 + i)) + 'deg" aria-label="' + esc(v.destino + ". Pulsa para ampliar; flechas para mover.") + '">' +
+        return '<button type="button" class="pic" data-v="' + i + '" style="--x:' + Math.round(2 + i * 64 / Math.max(1, M.viajes.length - 1)) + "%;--y:" + (4 + (i % 3) * 13) + "%;--r:" + ((i % 2 ? 1 : -1) * (2 + (i % 4) * 2)) + 'deg" aria-label="' + esc(v.destino + ". Pulsa para ampliar; flechas para mover.") + '">' +
           '<img src="' + esc(v.foto) + '" alt="' + esc(v.alt || v.destino) + '" draggable="false" loading="lazy"><span class="hand">' + esc(v.destino) + "</span></button>";
       }).join("") +
       "</div>" +
@@ -174,13 +174,42 @@
 
     /* Lectura: balda */
     var bookBox = desk.querySelector("#book"), spines = desk.querySelectorAll(".spine");
+    /* Portadas: se prueban las ediciones de Open Library una a una; si ninguna carga, búsqueda por título; si no, cubierta tipográfica. */
+    var OLC = "https://covers.openlibrary.org/b/";
+    function loadImg(urls, ok, ko) {
+      if (!urls.length) return ko();
+      var im = new Image();
+      im.onload = function () { im.naturalWidth > 20 ? ok(urls[0]) : loadImg(urls.slice(1), ok, ko); };
+      im.onerror = function () { loadImg(urls.slice(1), ok, ko); };
+      im.src = urls[0];
+    }
+    function findCover(b, done) {
+      if (b._src !== undefined) return done(b._src);
+      var urls = (b.portada ? [b.portada] : []).concat((b.ol || []).map(function (id) { return OLC + "olid/" + id + "-M.jpg?default=false"; }));
+      loadImg(urls, function (u) { b._src = u; done(u); }, function () {
+        if (!window.fetch) { b._src = ""; return done(""); }
+        fetch("https://openlibrary.org/search.json?limit=5&fields=cover_i&title=" + encodeURIComponent(b.buscar || b.titulo) + "&author=" + encodeURIComponent(b.autor))
+          .then(function (r) { return r.json(); })
+          .then(function (j) {
+            var c = (j.docs || []).filter(function (d) { return d.cover_i; }).map(function (d) { return OLC + "id/" + d.cover_i + "-M.jpg?default=false"; });
+            loadImg(c, function (u) { b._src = u; done(u); }, function () { b._src = ""; done(""); });
+          })
+          .catch(function () { b._src = ""; done(""); });
+      });
+    }
+    var bookTok = 0;
     function openBook(sp) {
-      var k = sp.getAttribute("data-b"), b = k === "next" ? M.proximoLibro : M.libros[+k];
+      var k = sp.getAttribute("data-b"), b = k === "next" ? M.proximoLibro : M.libros[+k], tok = ++bookTok;
       spines.forEach(function (s) { s.classList.toggle("is-out", s === sp); s.setAttribute("aria-pressed", String(s === sp)); });
       bookBox.innerHTML =
-        (b.portada ? '<img class="book__cover" src="' + esc(b.portada) + '" alt="' + esc("Portada de " + b.titulo) + '">' : '<div class="book__type" style="--c:' + sp.style.getPropertyValue("--c") + '"><b>' + esc(b.titulo) + "</b><span>" + esc(b.autor) + "</span></div>") +
+        '<div class="book__type' + (sp.classList.contains("spine--dark") ? " book__type--dark" : "") + '" style="--c:' + (sp.style.getPropertyValue("--c") || "var(--ivory)") + '"><b>' + esc(b.titulo) + "</b><span>" + esc(b.autor) + "</span></div>" +
         '<div class="book__info"><p class="book__t">' + esc(b.titulo) + '</p><p class="book__a">' + esc(b.autor) + "</p>" +
         '<p class="book__s">' + (k === "next" ? "Mi próxima lectura" : "Leído") + "</p></div>";
+      findCover(b, function (u) {
+        if (!u || tok !== bookTok) return;
+        var t = bookBox.querySelector(".book__type");
+        if (t) t.outerHTML = '<img class="book__cover" src="' + esc(u) + '" alt="' + esc("Portada de " + b.titulo) + '">';
+      });
     }
     spines.forEach(function (s) { s.addEventListener("click", function () { openBook(s); }); });
 
@@ -188,14 +217,34 @@
     var scr = desk.querySelector("#tvScreen"), modeBtn = desk.querySelector('[data-tv="mode"]');
     var tvState = { mode: "series", i: 0, on: true };
     function list() { return tvState.mode === "series" ? M.series : M.juegos; }
-    function paint() {
-      if (!tvState.on) { scr.innerHTML = '<p class="tv__off">Fuera de emisión.</p>'; scr.classList.add("is-off"); return; }
+    /* Imágenes de la pantalla: una sola consulta a Wikipedia (póster o portada); si falla, solo texto. */
+    var tvImg = null;
+    function loadTv() {
+      if (tvImg || !window.fetch) return; tvImg = {};
+      var all = M.series.concat(M.juegos);
+      fetch("https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=480&pilicense=any&redirects=1&titles=" +
+        encodeURIComponent(all.map(function (x) { return x.wiki; }).join("|")))
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          var q = j.query || {}, map = {};
+          (q.normalized || []).concat(q.redirects || []).forEach(function (n) { map[n.from] = n.to; });
+          var src = {};
+          (q.pages || []).forEach(function (pg) { if (pg.thumbnail) src[pg.title] = pg.thumbnail.source; });
+          all.forEach(function (x) { var t = x.wiki; for (var g = 0; g < 3 && map[t]; g++) t = map[t]; if (src[t]) tvImg[x.wiki] = src[t]; });
+          if (tvState.on) paint(true);
+        })
+        .catch(function () {});
+    }
+    function paint(quiet) {
+      if (!tvState.on) { scr.innerHTML = '<p class="tv__off">Fuera de emisión.</p>'; scr.classList.add("is-off"); scr.classList.remove("has-img"); return; }
       scr.classList.remove("is-off");
-      var L = list(), name = L[tvState.i];
-      scr.classList.remove("is-zap"); void scr.offsetWidth; if (!reduce) scr.classList.add("is-zap");
-      scr.innerHTML = '<span class="tv__ch">CH ' + String(tvState.i + 1).padStart(2, "0") + " · " + (tvState.mode === "series" ? "Serie" : "Videojuego") + "</span>" +
-        '<p class="tv__t">' + esc(name) + "</p>" +
-        '<span class="tv__dots" aria-hidden="true">' + L.map(function (_, j) { return "<i" + (j === tvState.i ? ' class="on"' : "") + "></i>"; }).join("") + "</span>";
+      var L = list(), it = L[tvState.i], img = tvImg && tvImg[it.wiki];
+      if (!quiet) { scr.classList.remove("is-zap"); void scr.offsetWidth; if (!reduce) scr.classList.add("is-zap"); }
+      scr.classList.toggle("has-img", !!img);
+      scr.innerHTML = (img ? '<img class="tv__img" src="' + esc(img) + '" alt="" onerror="this.parentNode.classList.remove(\'has-img\');this.remove()">' : "") +
+        '<div class="tv__txt"><span class="tv__ch">CH ' + String(tvState.i + 1).padStart(2, "0") + " · " + (tvState.mode === "series" ? "Serie" : "Videojuego") + "</span>" +
+        '<p class="tv__t">' + esc(it.t) + "</p>" +
+        '<span class="tv__dots" aria-hidden="true">' + L.map(function (_, j) { return "<i" + (j === tvState.i ? ' class="on"' : "") + "></i>"; }).join("") + "</span></div>";
     }
     function zap(d) { if (!tvState.on) return; var L = list(); tvState.i = (tvState.i + d + L.length) % L.length; paint(); }
     desk.querySelectorAll("[data-tv]").forEach(function (b) {
@@ -215,7 +264,7 @@
     var sx = null;
     scr.addEventListener("pointerdown", function (e) { sx = e.clientX; });
     scr.addEventListener("pointerup", function (e) { if (sx == null) return; var dx = e.clientX - sx; if (Math.abs(dx) > 30) zap(dx < 0 ? 1 : -1); sx = null; });
-    paint();
+    paint(); loadTv();
 
     /* Viajes: fotos arrastrables */
     var pile = desk.querySelector("#pile"), z = 10;

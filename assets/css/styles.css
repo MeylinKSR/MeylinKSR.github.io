@@ -800,8 +800,9 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 .spine--next i { position: absolute; top: -1.6rem; left: -1.2rem; font-style: normal; font-size: 1.1rem; color: var(--coral-deep); white-space: nowrap; transform: rotate(-9deg); }
 .shelf__board { display: block; height: .7rem; background: var(--night); border-radius: 0 0 3px 3px; min-width: 100%; }
 .book { display: flex; gap: 1.1rem; align-items: flex-start; margin-top: 1.2rem; min-height: 8.5rem; }
-.book__cover { width: 6rem; height: auto; border: 1.5px solid var(--night); }
+.book__cover { flex: none; width: 6rem; height: 8.5rem; object-fit: cover; border: 1.5px solid var(--night); background: var(--paper); }
 .book__type { flex: none; width: 6rem; height: 8.5rem; background: var(--c); border: 1.5px solid var(--night); padding: .6rem; display: flex; flex-direction: column; justify-content: space-between; color: var(--night); }
+.book__type--dark { color: var(--on-night); }
 .book__type b { font: 700 .8rem/1.15 var(--f-display); }
 .book__type span { font-size: .7rem; }
 .book__t { font: 700 1.15rem/1.2 var(--f-display); letter-spacing: -.02em; }
@@ -818,6 +819,11 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 .tv__dots i.on { background: var(--lilac); }
 .tv__off { color: var(--on-night-2); font-size: .9rem; }
 .tv__screen.is-off { background: #15111f; }
+.tv__txt { display: grid; gap: .6rem; }
+.tv__screen.has-img { grid-template-columns: minmax(0, 34%) 1fr; grid-template-rows: minmax(0, 1fr); place-content: stretch; align-items: center; text-align: left; gap: 1rem; }
+.tv__img { width: 100%; height: 100%; min-height: 0; object-fit: contain; object-position: center; border-radius: 3px; }
+.tv__screen.has-img .tv__t { margin-inline: 0; font-size: clamp(1.15rem, .9rem + 1.4vw, 2rem); }
+.tv__screen.has-img .tv__dots { justify-content: flex-start; }
 .tv__screen.is-zap { animation: zap .32s steps(3); }
 @keyframes zap { 0% { filter: brightness(2.2) contrast(.6); transform: scaleY(.96); } 100% { filter: none; transform: none; } }
 .remote { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-top: .8rem; padding: .55rem; background: var(--night); border-radius: 10px; width: fit-content; }
@@ -836,7 +842,7 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 .pic span { position: absolute; left: 0; right: 0; bottom: .2rem; text-align: center; font-size: 1.15rem; color: var(--ink); }
 .pic:hover { transform: rotate(0) scale(1.03); }
 .pic.is-drag { cursor: grabbing; transform: rotate(0) scale(1.06); transition: none; }
-@media (max-width: 719px) { .pic { width: 7.2rem; } .pile { height: 15rem; } }
+@media (max-width: 719px) { .pic { width: 7.2rem; } .pile { height: 17.5rem; } }
 
 /* Recetario */
 .rcard { display: grid; grid-template-columns: minmax(0, 1fr) 7.5rem; gap: 1rem; align-items: center; background: var(--ivory); border: 1.5px solid var(--night); border-left: 4px solid var(--coral); padding: 1rem 1.1rem; transform: rotate(1deg); }
