@@ -90,7 +90,7 @@
 
   /* ---------- Tarjetas de proyecto ---------- */
   function card(p) {
-    var play = p.embed || p.demo;
+    var play = p.embed || p.demo || p.tryAt;
     return (
       '<article class="pcard reveal" data-disc="' + esc(p.discipline) + '">' +
       '<a class="pcard__media' + (p.coverFit === "contain" ? " pcard__media--contain" : "") + '" href="#p-' + p.slug + '" tabindex="-1" aria-hidden="true">' +
@@ -102,7 +102,8 @@
       '<p class="pcard__k">' + esc(p.kicker) + "</p>" +
       '<div class="pcard__acts">' +
       (play
-        ? '<button class="btn btn--small" type="button" data-play="' + p.slug + '"><span aria-hidden="true">▶</span> ' + (p.embed ? "Ver informe" : "Probar") + "</button>"
+        ? (p.tryAt ? '<a class="btn btn--small" href="#p-' + p.slug + '" data-goto="' + p.tryAt + '"><span aria-hidden="true">▶</span> ' + esc(p.tryLabel || "Probar") + "</a>"
+          : '<button class="btn btn--small" type="button" data-play="' + p.slug + '"><span aria-hidden="true">▶</span> ' + (p.embed ? "Ver informe" : "Probar") + "</button>")
         : '<span class="pcard__soon">Demo próximamente</span>') +
       '<a class="pcard__more" href="#p-' + p.slug + '">Ver caso ' + ARROW + "</a></div>" +
       "</div></article>"
@@ -139,7 +140,7 @@
       "</div>" +
       '<div class="hero__side">' +
       '<div class="hstat"><b data-count="' + P.length + '">' + P.length + '</b><span>proyectos</span></div>' +
-      '<div class="hstat"><b data-count="' + P.filter(function (p) { return p.embed || p.demo; }).length + '">' + P.filter(function (p) { return p.embed || p.demo; }).length + '</b><span>demos interactivas</span></div>' +
+      '<div class="hstat"><b data-count="' + P.filter(function (p) { return p.embed || p.demo || p.tryAt; }).length + '">' + P.filter(function (p) { return p.embed || p.demo || p.tryAt; }).length + '</b><span>demos interactivas</span></div>' +
       '<div class="hstat"><b data-count="2">2</b><span>prácticas</span></div>' +
       chips(["Power BI", "DAX", "Google Analytics", "Google Ads", "Meta Ads", "SQL", "BPMN", "Figma", "Kotlin"], "chips--hero") +
       "</div></div></section>" +
@@ -527,6 +528,8 @@
   }
 
   /* ---------- Router ---------- */
+  var pendingGoto = null;
+  document.addEventListener("click", function (e) { var g = e.target.closest("[data-goto]"); if (g) pendingGoto = g.getAttribute("data-goto"); });
   function route() {
     var h = (location.hash || "").replace(/^#/, "");
     var html, title = "Meylin Soto Reyes · MEY.", current = "", scrollTo = null;
@@ -556,6 +559,7 @@
       if (md) { if (!md.getAttribute("data-def")) md.setAttribute("data-def", md.getAttribute("content")); md.setAttribute("content", (h.indexOf("p-") === 0 && P.filter(function (x) { return "p-" + x.slug === h; })[0] || {}).meta || md.getAttribute("data-def")); }
       window.scrollTo(0, 0);
       afterRender();
+      if (pendingGoto) { var g = document.getElementById(pendingGoto); pendingGoto = null; if (g) g.scrollIntoView({ behavior: "auto" }); }
     };
     if (document.startViewTransition && !reduce && main.innerHTML) document.startViewTransition(swap);
     else swap();
