@@ -132,8 +132,11 @@
       '<div class="hero__main">' +
       '<p class="eyebrow">Portfolio · Madrid</p>' +
       '<h1 class="hero__name">Meylin<br>Soto Reyes<span class="dot">.</span></h1>' +
-      '<p class="hero__role">' + MARK + '<span>Analítica de datos</span></p>' +
-      '<p class="hero__bio">Formación en Marketing y Publicidad y en Ciencia, Gestión e Ingeniería de Servicios. Proyectos de análisis comercial, mejora de procesos y diseño de productos digitales.</p>' +
+      '<p class="hero__role">' + MARK + '<span>Analítica de <span class="rotator" id="rot">' +
+      '<span class="rotator__w is-on">producto</span>' +
+      '<span class="rotator__w" aria-hidden="true">datos</span>' +
+      '<span class="rotator__w" aria-hidden="true">marketing</span></span></span></p>' +
+      '<p class="hero__bio">Me gusta entender por qué pasan las cosas. A veces la pregunta empieza en una hoja de Excel y otras, en algo tan cotidiano como pedir una cita médica.</p>' +
       '<div class="actions"><a class="btn" href="#trabajo" data-scroll="trabajo">Ver proyectos <span class="arr" aria-hidden="true">↓</span></a>' +
       '<a class="btn btn--ghost" href="#contacto">Contacto</a></div>' +
       "</div></div></section>" +
@@ -643,10 +646,14 @@
     clearInterval(rotTimer);
     var el = document.getElementById("rot");
     if (!el || reduce) return;
-    var words = ["producto", "datos", "marketing", "procesos"], i = 0;
+    /* Las tres palabras comparten celda: el ancho no cambia y nada salta */
+    var words = el.querySelectorAll(".rotator__w"), i = 0;
     rotTimer = setInterval(function () {
-      el.classList.add("is-out");
-      setTimeout(function () { i = (i + 1) % words.length; el.textContent = words[i]; el.classList.remove("is-out"); }, 280);
+      var prev = words[i];
+      i = (i + 1) % words.length;
+      prev.classList.remove("is-on"); prev.classList.add("is-out"); prev.setAttribute("aria-hidden", "true");
+      setTimeout(function () { prev.classList.remove("is-out"); }, 450);
+      words[i].classList.remove("is-out"); words[i].classList.add("is-on"); words[i].removeAttribute("aria-hidden");
     }, 2200);
   }
 

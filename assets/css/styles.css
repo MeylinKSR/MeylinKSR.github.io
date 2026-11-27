@@ -424,8 +424,15 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 @media (min-width: 1000px) { .hero__grid { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
 .hero__name { font-size: clamp(2.8rem, 1.2rem + 6.5vw, 7.5rem); font-weight: 800; letter-spacing: -.06em; line-height: .9; margin-top: 1rem; }
 .hero__role { display: flex; align-items: center; gap: .6rem; margin-top: 1.3rem; font: 600 var(--step-2)/1.15 var(--f-display); letter-spacing: -.03em; }
-.rotator { color: var(--lilac-deep); display: inline-block; transition: opacity .28s, transform .28s var(--ease); }
-.rotator.is-out { opacity: 0; transform: translateY(.35em); }
+/* Palabra que rota: las tres ocupan la misma celda y reservan el ancho de la más larga */
+.rotator { color: var(--lilac-deep); display: inline-grid; vertical-align: bottom; }
+.rotator__w { grid-area: 1 / 1; white-space: nowrap; opacity: 0; transform: translateY(.35em); transition: opacity .4s var(--ease), transform .4s var(--ease); }
+.rotator__w.is-on { opacity: 1; transform: none; }
+.rotator__w.is-out { opacity: 0; transform: translateY(-.35em); }
+@media (prefers-reduced-motion: reduce) {
+  .rotator__w { transition: none; }
+  .rotator__w:not(:first-child) { visibility: hidden; }
+}
 .hero__bio { margin: .9rem 0 1.6rem; color: var(--ink-2); font-size: var(--step-1); max-width: 40ch; }
 .hero__side { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; border-top: 2px solid var(--night); padding-top: 1.2rem; }
 .hstat b { display: block; font: 800 var(--step-4)/1 var(--f-display); letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
