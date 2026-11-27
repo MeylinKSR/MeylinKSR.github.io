@@ -1862,3 +1862,9 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 .sm-steps { counter-reset: st; list-style: none; padding-left: 0; }
 .sm-list.sm-steps li { counter-increment: st; position: relative; padding: .5rem 0 .5rem 2rem; }
 .sm-list.sm-steps li::before { content: counter(st); position: absolute; left: 0; top: .55rem; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--lilac-deep); color: #fff; font-size: .75rem; font-weight: 700; display: grid; place-items: center; }
+/* Titular animado: reserva el ancho de la palabra más larga para que nada salte */
+.hero__rt { white-space: nowrap; }
+.rotwrap { display: inline-grid; vertical-align: bottom; }
+.rotwrap > * { grid-area: 1 / 1; }
+.rotator__ghost { visibility: hidden; }
+.hero--compact .hero__bio { max-width: 52ch; }

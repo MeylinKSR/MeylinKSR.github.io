@@ -132,8 +132,8 @@
       '<div class="hero__main">' +
       '<p class="eyebrow">Portfolio · Madrid</p>' +
       '<h1 class="hero__name">Meylin<br>Soto Reyes<span class="dot">.</span></h1>' +
-      '<p class="hero__role">' + MARK + '<span>Analítica de datos</span></p>' +
-      '<p class="hero__bio">Formación en Marketing y Publicidad y en Ciencia, Gestión e Ingeniería de Servicios. Proyectos de análisis comercial, mejora de procesos y diseño de productos digitales.</p>' +
+      '<p class="hero__role">' + MARK + '<span class="hero__rt">Analítica de <span class="rotwrap"><span class="rotator" id="rot">producto</span><span class="rotator__ghost" aria-hidden="true">marketing</span></span></span></p>' +
+      '<p class="hero__bio">Me gusta entender por qué pasan las cosas. A veces la pregunta empieza en una hoja de Excel y otras, en algo tan cotidiano como pedir una cita médica.</p>' +
       '<div class="actions"><a class="btn" href="#trabajo" data-scroll="trabajo">Ver proyectos <span class="arr" aria-hidden="true">↓</span></a>' +
       '<a class="btn btn--ghost" href="#contacto">Contacto</a></div>' +
       "</div></div></section>" +
@@ -643,7 +643,8 @@
     clearInterval(rotTimer);
     var el = document.getElementById("rot");
     if (!el || reduce) return;
-    var words = ["producto", "datos", "marketing", "procesos"], i = 0;
+    var words = ["producto", "datos", "marketing"], i = 0;
+    el.textContent = words[0];
     rotTimer = setInterval(function () {
       el.classList.add("is-out");
       setTimeout(function () { i = (i + 1) % words.length; el.textContent = words[i]; el.classList.remove("is-out"); }, 280);
