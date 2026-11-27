@@ -32,9 +32,9 @@ window.BPM_CASES["sermas-citas"] = {
   cycleIntro: "BPM (Business Process Management) sirve para entender, gestionar y mejorar los procesos de forma continua: la monitorización alimenta una nueva identificación. Cada fase lleva a su parte del caso.",
 
   rail: [
-    ["smReto", "El reto"], ["smOrg", "La organización"], ["smIdent", "Identificación"], ["smAsis", "AS-IS"],
+    ["smClave", "En corto"], ["smReto", "El reto"], ["smOrg", "La organización"], ["smIdent", "Identificación"], ["smAsis", "AS-IS"],
     ["smAnalisis", "Análisis"], ["smRediseno", "Rediseño"], ["smSim", "Probar las mejoras"], ["smImpl", "Implementación"],
-    ["smKpi", "Monitorización"], ["smYo", "Mi parte"],
+    ["smKpi", "Monitorización"], ["smYo", "Resultado"],
   ],
 
   reto: {
@@ -220,7 +220,12 @@ window.BPM_CASES["sermas-citas"] = {
   deliverables: ["Análisis de la organización", "Business Model Canvas", "Modelo e3value", "Arquitectura de procesos", "Ficha del proceso", "BPMN AS-IS", "Análisis de mejoras", "BPMN TO-BE", "Cuatro propuestas de rediseño", "Plan de implementación", "Propuesta de monitorización"],
   aims: ["Comunicar mejor con el paciente cuando no se le puede atender.", "Recuperar las llamadas no atendidas.", "Adaptar la elección de cita a las franjas habituales.", "Aprovechar los huecos que deja una cancelación.", "Medir de forma continua la calidad del proceso."],
   resultNote: "El resultado es una propuesta documentada, no una mejora medida. Los beneficios son esperados y habría que validarlos implantando y midiendo.",
-  me: "Participé de forma transversal en todas las etapas del proyecto, desde el análisis de la organización y el modelado de procesos hasta la definición de mejoras, indicadores y mecanismos de seguimiento. El trabajo se desarrolló de manera colaborativa, revisando y validando conjuntamente las decisiones y los entregables. Participé también en la redacción de la memoria, en el diseño de la presentación y en la exposición oral.",
+  me: "Dentro del trabajo en grupo, participé en el modelo de valor e3value. Junto a una compañera, me encargué de modelar en BPMN el proceso actual (AS-IS) y el proceso propuesto (TO-BE) de gestión de citas médicas.",
+  clave: {
+    intro: "Un trabajo académico de gestión de procesos (BPM): analizamos cómo se piden las citas médicas en el SERMAS y propusimos cuatro mejoras modeladas en BPMN.",
+    ex: ["Una persona cancela su cita.", "La propuesta consulta la lista de espera.", "Avisa a la primera persona de que hay un hueco disponible.", "Esa persona decide si lo acepta: el aviso todavía no confirma la cita."],
+    exNote: "Es una propuesta académica modelada en BPMN, no un servicio en funcionamiento ni conectado con sistemas sanitarios reales.",
+  },
   learned: [
     "Un modelo BPMN obliga a decidir quién hace cada cosa: dibujar los carriles saca a la luz esperas y traspasos que en una descripción pasan desapercibidos.",
     "Una mejora pequeña (un mensaje, una devolución de llamada) puede tocar varios actores a la vez.",

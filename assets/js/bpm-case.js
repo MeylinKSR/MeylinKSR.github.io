@@ -65,6 +65,14 @@
     );
   }
 
+  function clave(c) {
+    var k = c.clave;
+    return '<section class="sm-sec" id="smClave" aria-labelledby="smClaveH">' + sh("smClave", "", "El caso en corto", esc(k.intro)) +
+      '<div class="sm-two"><div><p class="sm-k">Mi aportación</p><blockquote class="me me--tight"><p>' + esc(c.me) + "</p></blockquote></div>" +
+      '<div><p class="sm-k">Un ejemplo: aprovechar los huecos tras una cancelación</p><ol class="sm-list sm-steps">' + li(k.ex) + '</ol><p class="sm-note">' + esc(k.exNote) + '</p>' +
+      '<p><a class="btn btn--small btn--ghost" href="#smSim" data-scroll="smSim">Ver este flujo en la simulación <span aria-hidden="true">↓</span></a></p></div></div></section>';
+  }
+
   function reto(c) {
     var r = c.reto;
     return '<section class="sm-sec" id="smReto" aria-labelledby="smRetoH">' + sh("smReto", "", "El reto académico", esc(r.brief)) +
@@ -212,10 +220,9 @@
   }
 
   function yo(c) {
-    return '<section class="sm-sec" id="smYo" aria-labelledby="smYoH">' + sh("smYo", "", "Resultado, mi parte y lo que me llevo", "") +
+    return '<section class="sm-sec" id="smYo" aria-labelledby="smYoH">' + sh("smYo", "", "Resultado y lo que me llevo", "") +
       '<div class="sm-two"><div><p class="sm-k">Lo que entregamos</p><ul class="deliv">' + li(c.deliverables) + "</ul></div>" +
       '<div><p class="sm-k">Lo que buscan las mejoras</p><ul class="sm-list">' + li(c.aims) + '</ul><p class="sm-note">' + esc(c.resultNote) + "</p></div></div>" +
-      '<blockquote class="me"><p>' + esc(c.me) + "</p></blockquote>" +
       '<p class="sm-k">Lo que me llevo</p><ul class="sm-list">' + li(c.learned) + "</ul></section>";
   }
 
@@ -225,7 +232,7 @@
     return '<div class="view sm"><article>' + hero(p, C) +
       '<div class="wrap sm-lay"><nav class="sm-rail" aria-label="Partes del caso"><ol>' +
       C.rail.map(function (r) { return '<li><a href="#' + r[0] + '" data-scroll="' + r[0] + '" data-r="' + r[0] + '">' + esc(r[1]) + "</a></li>"; }).join("") +
-      '</ol></nav><div class="sm-main">' + reto(C) + org(C) + ident(C) + asis(C) + analisis(C) + rediseno(C) + sim() + impl(C) + kpi(C) + yo(C) + "</div></div>" +
+      '</ol></nav><div class="sm-main">' + clave(C) + reto(C) + org(C) + ident(C) + asis(C) + analisis(C) + rediseno(C) + sim() + impl(C) + kpi(C) + yo(C) + "</div></div>" +
       (nextHtml || "") + "</article></div>";
   };
 

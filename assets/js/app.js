@@ -94,16 +94,15 @@
     return (
       '<article class="pcard reveal" data-disc="' + esc(p.discipline) + '">' +
       '<a class="pcard__media' + (p.coverFit === "contain" ? " pcard__media--contain" : "") + '" href="#p-' + p.slug + '" tabindex="-1" aria-hidden="true">' +
-      '<img src="' + p.cover + '" alt="" loading="lazy">' +
-      '<span class="pcard__over">' + esc(p.summary) + "</span></a>" +
+      '<img src="' + p.cover + '" alt="" loading="lazy"></a>' +
       '<div class="pcard__body">' +
       '<span class="pcard__tag">' + esc(p.discipline) + "</span>" +
-      '<h3 class="pcard__t"><a href="#p-' + p.slug + '">' + esc(p.title) + "</a></h3>" +
-      '<p class="pcard__k">' + esc(p.kicker) + "</p>" +
+      '<h3 class="pcard__t"><a href="#p-' + p.slug + '">' + esc(p.cardTitle || p.title) + "</a></h3>" +
+      '<p class="pcard__d">' + esc(p.cardDesc || p.summary) + "</p>" +
       '<div class="pcard__acts">' +
       (play
         ? (p.tryAt ? '<a class="btn btn--small" href="#p-' + p.slug + '" data-goto="' + p.tryAt + '"><span aria-hidden="true">▶</span> ' + esc(p.tryLabel || "Probar") + "</a>"
-          : '<button class="btn btn--small" type="button" data-play="' + p.slug + '"><span aria-hidden="true">▶</span> ' + (p.embed ? "Ver informe" : "Probar") + "</button>")
+          : '<button class="btn btn--small" type="button" data-play="' + p.slug + '"><span aria-hidden="true">▶</span> ' + esc(p.playLabel || (p.embed ? "Ver informe" : "Probar")) + "</button>")
         : '<span class="pcard__soon">Demo próximamente</span>') +
       '<a class="pcard__more" href="#p-' + p.slug + '">Ver caso ' + ARROW + "</a></div>" +
       "</div></article>"
@@ -129,24 +128,18 @@
   function viewHome() {
     return (
       '<div class="view">' +
-      '<section class="hero"><div class="wrap hero__grid">' +
+      '<section class="hero hero--compact"><div class="wrap">' +
       '<div class="hero__main">' +
       '<p class="eyebrow">Portfolio · Madrid</p>' +
       '<h1 class="hero__name">Meylin<br>Soto Reyes<span class="dot">.</span></h1>' +
-      '<p class="hero__role">' + MARK + '<span>Analítica de <span class="rotator" id="rot">producto</span></span></p>' +
-      '<p class="hero__bio">De las campañas al producto: datos en Power BI, procesos y prototipos.</p>' +
+      '<p class="hero__role">' + MARK + '<span>Analítica de datos</span></p>' +
+      '<p class="hero__bio">Formación en Marketing y Publicidad y en Ciencia, Gestión e Ingeniería de Servicios. Proyectos de análisis comercial, mejora de procesos y diseño de productos digitales.</p>' +
       '<div class="actions"><a class="btn" href="#trabajo" data-scroll="trabajo">Ver proyectos <span class="arr" aria-hidden="true">↓</span></a>' +
       '<a class="btn btn--ghost" href="#contacto">Contacto</a></div>' +
-      "</div>" +
-      '<div class="hero__side">' +
-      '<div class="hstat"><b data-count="' + P.length + '">' + P.length + '</b><span>proyectos</span></div>' +
-      '<div class="hstat"><b data-count="' + P.filter(function (p) { return p.embed || p.demo || p.tryAt; }).length + '">' + P.filter(function (p) { return p.embed || p.demo || p.tryAt; }).length + '</b><span>demos interactivas</span></div>' +
-      '<div class="hstat"><b data-count="2">2</b><span>prácticas</span></div>' +
-      chips(["Power BI", "DAX", "Google Analytics", "Google Ads", "Meta Ads", "SQL", "BPMN", "Figma", "Kotlin"], "chips--hero") +
       "</div></div></section>" +
 
-      '<section class="section section--tight" id="trabajo"><div class="wrap">' +
-      '<div class="shead"><h2 class="section__title">Proyectos</h2><p class="shead__note">Pulsa <b>▶</b> para probarlos sin salir de la página.</p></div>' +
+      '<section class="section section--tight section--work" id="trabajo"><div class="wrap">' +
+      '<div class="shead"><h2 class="section__title">Proyectos</h2></div>' +
       grid() +
       "</div></section>" +
 
@@ -160,7 +153,7 @@
   function viewProjects() {
     return (
       '<div class="view"><section class="section section--top"><div class="wrap">' +
-      '<div class="shead"><h1 class="page-title">Proyectos</h1><p class="shead__note">Pulsa <b>▶</b> para probarlos sin salir de la página.</p></div>' +
+      '<div class="shead"><h1 class="page-title">Proyectos</h1></div>' +
       grid() +
       "</div></section></div>"
     );

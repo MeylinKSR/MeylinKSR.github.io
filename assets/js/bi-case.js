@@ -57,6 +57,7 @@
       '<h1 class="bi-hero__t">' + esc(c.title) + "</h1>" +
       '<p class="bi-hero__sub">' + esc(c.sub) + "</p>" +
       '<p class="bi-hero__ctx">' + esc(c.context) + "</p>" +
+      (c.finding ? '<p class="bi-find"><span class="bi-find__k">Un hallazgo del análisis</span>' + esc(c.finding) + ' <a class="mini-link" href="#biHallazgos" data-scroll="biHallazgos">Ver el análisis</a></p>' : "") +
       '<div class="bi-hero__go"><a class="btn btn--small" href="#demo" data-scroll="demo">Ir al informe <span aria-hidden="true">↓</span></a>' +
       '<a class="btn btn--small btn--ghost" href="#biReto" data-scroll="biReto">Cómo lo construí</a></div>' +
       '<dl class="bi-ledger">' + c.ledger.map(function (l) { return "<div><dt>" + esc(l[0]) + "</dt><dd>" + esc(l[1]) + "</dd></div>"; }).join("") + "</dl>" +

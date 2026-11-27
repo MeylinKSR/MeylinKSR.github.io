@@ -1848,3 +1848,17 @@ a.close__link:hover .close__arrow { transform: translate(3px, -3px); }
 .tour--app { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 1rem; }
 .tour--app button { padding: .5rem .4rem .5rem 0; }
 .tour--app button b { font-size: .86rem; }
+
+/* Portada compacta y descripciones visibles en las tarjetas */
+.hero--compact { padding-block: clamp(2rem, 5vw, 3.6rem) clamp(1.2rem, 2.5vw, 2rem); }
+.hero--compact .hero__main { max-width: 860px; }
+.hero--compact .hero__bio { max-width: 62ch; margin: .8rem 0 1.4rem; }
+.section--work { padding-top: clamp(1.6rem, 3vw, 2.6rem); }
+.section--work .shead { margin-bottom: 1.2rem; }
+.pcard__d { color: var(--ink-2); font-size: .9rem; line-height: 1.45; margin: .1rem 0 0; }
+.bi-find { margin: 1.1rem 0 0; max-width: 60ch; padding: .75rem 1rem; border-left: 3px solid var(--lilac-deep); background: rgba(182, 155, 255, .12); border-radius: 0 10px 10px 0; font-size: .98rem; }
+.bi-find__k { display: block; font: 700 .7rem var(--f-display); text-transform: uppercase; letter-spacing: .09em; color: var(--lilac-deep); margin-bottom: .2rem; }
+.me--tight { margin: .4rem 0 0; }
+.sm-steps { counter-reset: st; list-style: none; padding-left: 0; }
+.sm-list.sm-steps li { counter-increment: st; position: relative; padding: .5rem 0 .5rem 2rem; }
+.sm-list.sm-steps li::before { content: counter(st); position: absolute; left: 0; top: .55rem; width: 1.4rem; height: 1.4rem; border-radius: 50%; background: var(--lilac-deep); color: #fff; font-size: .75rem; font-weight: 700; display: grid; place-items: center; }

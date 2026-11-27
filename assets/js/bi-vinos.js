@@ -24,6 +24,7 @@ window.BI_CASES = window.BI_CASES || {};
       ["9", "medidas DAX"],
       ["6 + 1", "páginas y un tooltip"],
     ],
+    finding: "El vino que más unidades vendió también tuvo el margen más bajo, un 15,94 %.",
     phases: [
       ["biReto", "Reto"], ["biDatos", "Datos"], ["biEtl", "ETL"], ["biModelo", "Modelo"],
       ["biDax", "DAX"], ["biInforme", "Informe"], ["biHallazgos", "Análisis"], ["biMejoras", "Mejoras"],

@@ -17,6 +17,9 @@
 window.PROJECTS = [
   {
     slug: "ventas-vinos",
+    cardTitle: "Ventas de vinos en Power BI",
+    cardDesc: "De dos archivos Excel a un informe para comparar ventas y rentabilidad.",
+    playLabel: "Ver informe",
     bi: true,
     title: "Análisis comercial de una empresa de vinos",
     kicker: "Caso de estudio de Business Intelligence",
@@ -38,6 +41,8 @@ window.PROJECTS = [
   },
   {
     slug: "sermas-citas",
+    cardTitle: "Rediseño de citas médicas del SERMAS",
+    cardDesc: "Cuatro propuestas para mejorar la gestión de citas, incluida una para aprovechar los huecos tras una cancelación.",
     bpm: true,
     title: "Rediseño del proceso de gestión de citas médicas del SERMAS",
     kicker: "Ingeniería de Procesos de Negocio · URJC",
@@ -49,8 +54,8 @@ window.PROJECTS = [
       "Ciclo BPM completo sobre la gestión de citas en atención primaria: del Canvas y el e3value a los modelos AS-IS y TO-BE, con cuatro mejoras y cómo medirlas.",
     cover: "assets/img/sermas-cover.webp",
     coverAlt: "Portada de la web del proyecto de gestión de citas médicas.",
-    tryAt: "smAsis",
-    tryLabel: "Ver el BPMN",
+    tryAt: "smRediseno",
+    tryLabel: "Comparar antes y después",
     role: "Trabajo en grupo",
     sections: [
       {
@@ -95,6 +100,9 @@ window.PROJECTS = [
   },
   {
     slug: "conexia",
+    cardDesc: "Un panel para administradores y una app para vecinos que facilitan el seguimiento de incidencias.",
+    tryAt: "cxProducto",
+    tryLabel: "Probar prototipos",
     cx: true,
     featured: true,
     title: "Conexia",
