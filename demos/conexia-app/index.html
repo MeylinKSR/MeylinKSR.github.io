@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+  <title>Conexia — App vecino</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div id="app">
+    <div class="screen" id="screen-inicio">
+      <div class="screen-header">
+        <div class="header-left">
+          <div class="logo-small">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5" fill="#378ADD"/><circle cx="4" cy="17" r="2.5" fill="#378ADD"/><circle cx="20" cy="17" r="2.5" fill="#378ADD"/><path d="M12 7.5L4 14.5M12 7.5L20 14.5" stroke="#378ADD" stroke-width="1.2"/></svg>
+          </div>
+          <span class="header-title">Conexia</span>
+        </div>
+        <div class="notif-badge">3</div>
+      </div>
+      <div class="screen-content" id="content-inicio"></div>
+    </div>
+
+    <div class="screen hidden" id="screen-incidencias">
+      <div class="screen-header">
+        <span class="header-title">Mis incidencias</span>
+        <button class="btn-icon" onclick="showView('nueva-incidencia')">+</button>
+      </div>
+      <div class="screen-content" id="content-incidencias"></div>
+    </div>
+
+    <div class="screen hidden" id="screen-documentos">
+      <div class="screen-header">
+        <span class="header-title">Documentos</span>
+      </div>
+      <div class="screen-content" id="content-documentos"></div>
+    </div>
+
+    <div class="screen hidden" id="screen-avisos">
+      <div class="screen-header">
+        <span class="header-title">Avisos</span>
+      </div>
+      <div class="screen-content" id="content-avisos"></div>
+    </div>
+
+    <!-- Subvistas -->
+    <div class="screen hidden" id="screen-nueva-incidencia">
+      <div class="screen-header">
+        <button class="btn-back" onclick="goBack()">← Atrás</button>
+        <span class="header-title">Nueva incidencia</span>
+        <span></span>
+      </div>
+      <div class="screen-content" id="content-nueva-incidencia"></div>
+    </div>
+
+    <div class="screen hidden" id="screen-firma">
+      <div class="screen-header">
+        <button class="btn-back" onclick="goBack()">← Atrás</button>
+        <span class="header-title">Firma requerida</span>
+        <span></span>
+      </div>
+      <div class="screen-content" id="content-firma"></div>
+    </div>
+
+    <nav class="navbar" id="main-nav">
+      <div class="nav-item active" onclick="switchTab('inicio', this)">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M3 12L12 3l9 9M5 10v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1v-9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Inicio</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('incidencias', this)">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Incidencias</span>
+        <div class="nav-badge">2</div>
+      </div>
+      <div class="nav-item" onclick="switchTab('documentos', this)">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" stroke="currentColor" stroke-width="1.5"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Documentos</span>
+      </div>
+      <div class="nav-item" onclick="switchTab('avisos', this)">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Avisos</span>
+        <div class="nav-badge">1</div>
+      </div>
+    </nav>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="views/inicio.js"></script>
+  <script src="views/incidencias.js"></script>
+  <script src="views/documentos.js"></script>
+  <script src="views/avisos.js"></script>
+  <script src="views/nueva-incidencia.js"></script>
+  <script src="views/firma.js"></script>
+  <script src="views/views.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -200,6 +200,10 @@
   }
 
   function viewCase(p) {
+    if (p.cx && window.renderCXCase) {
+      var nc = P[(P.indexOf(p) + 1) % P.length];
+      return window.renderCXCase(p, '<a class="next" href="#p-' + nc.slug + '"><div class="wrap"><span class="next__l">Siguiente proyecto</span><span class="next__t">' + esc(nc.title) + " " + ARROW + "</span></div></a>");
+    }
     if (p.bpm && window.renderBPMCase && (window.BPM_CASES || {})[p.slug]) {
       var nb = P[(P.indexOf(p) + 1) % P.length];
       return window.renderBPMCase(p, '<a class="next" href="#p-' + nb.slug + '"><div class="wrap"><span class="next__l">Siguiente proyecto</span><span class="next__t">' + esc(nb.title) + " " + ARROW + "</span></div></a>");
@@ -557,7 +561,7 @@
     else swap();
   }
 
-  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); setupAbout(); if (window.setupBICase) window.setupBICase(main); if (window.setupBPMCase) window.setupBPMCase(main); }
+  function afterRender() { setupReveal(); setupFilters(); setupEmbed(); setupTabs(); setupCount(); setupRotator(); setupAbout(); if (window.setupBICase) window.setupBICase(main); if (window.setupBPMCase) window.setupBPMCase(main); if (window.setupCXCase) window.setupCXCase(main); }
 
   /* Aparición suave al hacer scroll: solo para lo que aún no está en pantalla */
   var io = null;
