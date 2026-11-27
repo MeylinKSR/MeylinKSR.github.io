@@ -16,59 +16,6 @@
 */
 window.PROJECTS = [
   {
-    slug: "spotify-tendencias",
-    featured: true,
-    title: "Tendencias de Spotify 2023–2025",
-    kicker: "Informe interactivo en Power BI",
-    discipline: "Datos y BI",
-    year: "",
-    tools: ["Power BI", "Marcadores", "Visuales personalizados"],
-    summary:
-      "Un informe de nueve páginas que cruza los rankings de Spotify, global y de España, de 2023 a 2025.",
-    lead: {
-      label: "Pregunta de análisis",
-      text: "¿Qué canciones y artistas lideraron Spotify entre 2023 y 2025, en el mundo y en España?",
-    },
-    cover: "assets/img/spotify-cover.webp",
-    coverAlt: "Portada del informe de tendencias de Spotify en Power BI.",
-    embed:
-      "https://app.powerbi.com/view?r=eyJrIjoiMmQ5Y2ViMzItZjVhZi00ZDUyLWIzMDctY2EyYTIwNGZmNDgwIiwidCI6IjVmODRjNGVhLTM3MGQtNGI5ZS04MzBjLTc1NmY4YmYxYjUxZiIsImMiOjh9&pageName=ba59c7f6a372d3d3be10",
-    role: "Modelo de datos y diseño del informe",
-    facts: [
-      ["4", "rankings: Top Diario y Top Semanal, global y España"],
-      ["3", "años comparados con un calendario común"],
-      ["9", "páginas, de la portada a la metodología"],
-    ],
-    sections: [
-      {
-        h: "Los datos",
-        p: [
-          "El modelo une los rankings Top Diario y Top Semanal, global y de España, con una tabla de los artistas más escuchados por mes, una de canciones más reproducidas y un calendario común para comparar periodos.",
-        ],
-      },
-      {
-        h: "Cómo se recorre",
-        list: [
-          "Una portada y una página por año: 2023, 2024 y 2025.",
-          "Páginas de detalle para 2024 y 2025, con un selector visual por portada de álbum.",
-          "Un corte semanal con el Top 5 global.",
-          "Una página de fuentes y metodología.",
-        ],
-      },
-      {
-        h: "Qué se puede ver",
-        list: [
-          "Top 4 de artistas por reproducciones de la muestra.",
-          "Reproducciones acumuladas por mes de lanzamiento: columnas para el total y una línea para la media por registro.",
-          "Días con más oyentes.",
-          "Rasgos de audio de cada canción: alegría, energía, si es bailable o instrumental.",
-        ],
-      },
-    ],
-    gallery: [],
-    pending: ["Año en que lo hiciste y si fue para una asignatura o por tu cuenta."],
-  },
-  {
     slug: "ventas-vinos",
     bi: true,
     title: "Análisis comercial de una empresa de vinos",
@@ -88,93 +35,6 @@ window.PROJECTS = [
     sections: [],
     gallery: [],
     pending: ["Año en que se hizo."],
-  },
-  {
-    slug: "conexia",
-    cx: true,
-    featured: true,
-    title: "Conexia",
-    kicker: "Product Management · Service Design · UX/UI",
-    discipline: "Producto",
-    year: "2025–2026",
-    tools: ["Figma y FigJam", "ITIL 4", "Business Model Canvas", "Prototipado con IA"],
-    meta: "Caso de estudio de Conexia: diseño de un servicio digital para comunidades de vecinos, desde el problema y los usuarios hasta los prototipos, el modelo de negocio y la gestión con ITIL 4.",
-    summary:
-      "Diseño de un servicio digital para conectar vecinos y administradores de fincas, desde la identificación del problema hasta el prototipado y la planificación operativa con ITIL 4.",
-    cover: "assets/img/conexia/cover.webp",
-    coverAlt: "Los dos prototipos de Conexia: el panel web para administradores y la app móvil para vecinos.",
-    demo: "demos/conexia/index.html",
-    demoLabel: "Entra en comunidades, incidencias o firmas. Todos los nombres y datos son de demostración.",
-    role: "Diseño y prototipo",
-    sections: [
-      {
-        h: "El reto",
-        p: [
-          "Quien administra fincas lleva muchas comunidades a la vez. Tiene que saber qué es urgente sin abrir cada una: un ascensor parado, una fuga, un acta sin firmar.",
-        ],
-      },
-      {
-        h: "Cómo se organiza",
-        p: ["El panel general resume y prioriza. Desde ahí se entra a cada módulo:"],
-        list: [
-          "Comunidades, con su estado: requiere atención, en seguimiento o al día.",
-          "Incidencias, con urgencia, estado y técnico asignado.",
-          "Comunicaciones y documentos.",
-          "Seguimiento de firmas: quién ha firmado y a quién le falta.",
-        ],
-      },
-    ],
-    gallery: [
-      ["assets/img/conexia-firmas.webp", "Seguimiento de firmas de un acta, filtrado por vecinos pendientes."],
-      ["assets/img/conexia-tablas.webp", "Vista de tablas del panel."],
-    ],
-    pending: ["Contexto: asignatura, encargo o proyecto propio, y año."],
-  },
-  {
-    slug: "sentimix",
-    title: "Sentimix",
-    kicker: "Experiencia inmersiva en Madrid",
-    discipline: "Innovación",
-    year: "",
-    tools: ["Modelo de negocio", "Web con maqueta 3D"],
-    summary:
-      "Un espacio para viajar a otro país con los cinco sentidos, pensado sobre todo para centros educativos. La edición de ejemplo es Japón.",
-    cover: "assets/img/sentimix-cover.webp",
-    coverAlt: "Portada de la web de Sentimix con un templo japonés entre cerezos.",
-    demo: "demos/sentimix/index.html",
-    demoLabel: "Gira la maqueta 3D, cambia de estación y simula el precio para un grupo.",
-    role: "Proyecto académico",
-    sections: [
-      {
-        h: "La propuesta",
-        p: [
-          "Sentimix es una experiencia para descubrir otras culturas a través de sus paisajes, sonidos, aromas, texturas y sabores, sin salir de Madrid. El local se recorre en cinco estaciones, una por sentido, y el destino cambia cada semestre.",
-        ],
-      },
-      {
-        h: "Para quién",
-        p: [
-          "El público principal son los centros de Secundaria y Bachillerato: una salida que conecta geografía, historia y diversidad cultural. También hay modalidades para público general y eventos privados.",
-        ],
-        list: [
-          "Antes de la visita, el profesorado conecta el destino con lo que trabaja en clase.",
-          "Durante la visita, el equipo acompaña al grupo por las cinco estaciones.",
-          "De vuelta al aula, el grupo comparte lo que ha descubierto.",
-        ],
-      },
-      {
-        h: "La web",
-        p: [
-          "Incluye una maqueta 3D del local, un plano por zonas, un recorrido guiado y un simulador de precio para grupos de hasta 25 personas: 10 € por persona para centros educativos y 15 € para el resto. La simulación no hace pagos ni reservas reales.",
-        ],
-      },
-    ],
-    gallery: [
-      ["assets/img/sentimix-maqueta.webp", "Maqueta 3D del local con las cinco estaciones."],
-      ["assets/img/sentimix-sala-3.webp", "Recreación de la estación del olfato."],
-      ["assets/img/sentimix-sala-5.webp", "Recreación de la estación del gusto."],
-    ],
-    pending: ["Tu papel concreto en el equipo, la asignatura y el año."],
   },
   {
     slug: "sermas-citas",
@@ -232,6 +92,146 @@ window.PROJECTS = [
       ["assets/img/sermas-e3value.webp", "Modelo e3value: intercambios de valor entre actores."],
     ],
     pending: ["Año y tu parte dentro del grupo."],
+  },
+  {
+    slug: "conexia",
+    cx: true,
+    featured: true,
+    title: "Conexia",
+    kicker: "Product Management · Service Design · UX/UI",
+    discipline: "Producto",
+    year: "2025–2026",
+    tools: ["Figma y FigJam", "ITIL 4", "Business Model Canvas", "Prototipado con IA"],
+    meta: "Caso de estudio de Conexia: diseño de un servicio digital para comunidades de vecinos, desde el problema y los usuarios hasta los prototipos, el modelo de negocio y la gestión con ITIL 4.",
+    summary:
+      "Diseño de un servicio digital para conectar vecinos y administradores de fincas, desde la identificación del problema hasta el prototipado y la planificación operativa con ITIL 4.",
+    cover: "assets/img/conexia/cover.webp",
+    coverAlt: "Los dos prototipos de Conexia: el panel web para administradores y la app móvil para vecinos.",
+    demo: "demos/conexia/index.html",
+    demoLabel: "Entra en comunidades, incidencias o firmas. Todos los nombres y datos son de demostración.",
+    role: "Diseño y prototipo",
+    sections: [
+      {
+        h: "El reto",
+        p: [
+          "Quien administra fincas lleva muchas comunidades a la vez. Tiene que saber qué es urgente sin abrir cada una: un ascensor parado, una fuga, un acta sin firmar.",
+        ],
+      },
+      {
+        h: "Cómo se organiza",
+        p: ["El panel general resume y prioriza. Desde ahí se entra a cada módulo:"],
+        list: [
+          "Comunidades, con su estado: requiere atención, en seguimiento o al día.",
+          "Incidencias, con urgencia, estado y técnico asignado.",
+          "Comunicaciones y documentos.",
+          "Seguimiento de firmas: quién ha firmado y a quién le falta.",
+        ],
+      },
+    ],
+    gallery: [
+      ["assets/img/conexia-firmas.webp", "Seguimiento de firmas de un acta, filtrado por vecinos pendientes."],
+      ["assets/img/conexia-tablas.webp", "Vista de tablas del panel."],
+    ],
+    pending: ["Contexto: asignatura, encargo o proyecto propio, y año."],
+  },
+  {
+    slug: "spotify-tendencias",
+    featured: true,
+    title: "Tendencias de Spotify 2023–2025",
+    kicker: "Informe interactivo en Power BI",
+    discipline: "Datos y BI",
+    year: "",
+    tools: ["Power BI", "Marcadores", "Visuales personalizados"],
+    summary:
+      "Un informe de nueve páginas que cruza los rankings de Spotify, global y de España, de 2023 a 2025.",
+    lead: {
+      label: "Pregunta de análisis",
+      text: "¿Qué canciones y artistas lideraron Spotify entre 2023 y 2025, en el mundo y en España?",
+    },
+    cover: "assets/img/spotify-cover.webp",
+    coverAlt: "Portada del informe de tendencias de Spotify en Power BI.",
+    embed:
+      "https://app.powerbi.com/view?r=eyJrIjoiMmQ5Y2ViMzItZjVhZi00ZDUyLWIzMDctY2EyYTIwNGZmNDgwIiwidCI6IjVmODRjNGVhLTM3MGQtNGI5ZS04MzBjLTc1NmY4YmYxYjUxZiIsImMiOjh9&pageName=ba59c7f6a372d3d3be10",
+    role: "Modelo de datos y diseño del informe",
+    facts: [
+      ["4", "rankings: Top Diario y Top Semanal, global y España"],
+      ["3", "años comparados con un calendario común"],
+      ["9", "páginas, de la portada a la metodología"],
+    ],
+    sections: [
+      {
+        h: "Los datos",
+        p: [
+          "El modelo une los rankings Top Diario y Top Semanal, global y de España, con una tabla de los artistas más escuchados por mes, una de canciones más reproducidas y un calendario común para comparar periodos.",
+        ],
+      },
+      {
+        h: "Cómo se recorre",
+        list: [
+          "Una portada y una página por año: 2023, 2024 y 2025.",
+          "Páginas de detalle para 2024 y 2025, con un selector visual por portada de álbum.",
+          "Un corte semanal con el Top 5 global.",
+          "Una página de fuentes y metodología.",
+        ],
+      },
+      {
+        h: "Qué se puede ver",
+        list: [
+          "Top 4 de artistas por reproducciones de la muestra.",
+          "Reproducciones acumuladas por mes de lanzamiento: columnas para el total y una línea para la media por registro.",
+          "Días con más oyentes.",
+          "Rasgos de audio de cada canción: alegría, energía, si es bailable o instrumental.",
+        ],
+      },
+    ],
+    gallery: [],
+    pending: ["Año en que lo hiciste y si fue para una asignatura o por tu cuenta."],
+  },
+  {
+    slug: "sentimix",
+    title: "Sentimix",
+    kicker: "Experiencia inmersiva en Madrid",
+    discipline: "Innovación",
+    year: "",
+    tools: ["Modelo de negocio", "Web con maqueta 3D"],
+    summary:
+      "Un espacio para viajar a otro país con los cinco sentidos, pensado sobre todo para centros educativos. La edición de ejemplo es Japón.",
+    cover: "assets/img/sentimix-cover.webp",
+    coverAlt: "Portada de la web de Sentimix con un templo japonés entre cerezos.",
+    demo: "demos/sentimix/index.html",
+    demoLabel: "Gira la maqueta 3D, cambia de estación y simula el precio para un grupo.",
+    role: "Proyecto académico",
+    sections: [
+      {
+        h: "La propuesta",
+        p: [
+          "Sentimix es una experiencia para descubrir otras culturas a través de sus paisajes, sonidos, aromas, texturas y sabores, sin salir de Madrid. El local se recorre en cinco estaciones, una por sentido, y el destino cambia cada semestre.",
+        ],
+      },
+      {
+        h: "Para quién",
+        p: [
+          "El público principal son los centros de Secundaria y Bachillerato: una salida que conecta geografía, historia y diversidad cultural. También hay modalidades para público general y eventos privados.",
+        ],
+        list: [
+          "Antes de la visita, el profesorado conecta el destino con lo que trabaja en clase.",
+          "Durante la visita, el equipo acompaña al grupo por las cinco estaciones.",
+          "De vuelta al aula, el grupo comparte lo que ha descubierto.",
+        ],
+      },
+      {
+        h: "La web",
+        p: [
+          "Incluye una maqueta 3D del local, un plano por zonas, un recorrido guiado y un simulador de precio para grupos de hasta 25 personas: 10 € por persona para centros educativos y 15 € para el resto. La simulación no hace pagos ni reservas reales.",
+        ],
+      },
+    ],
+    gallery: [
+      ["assets/img/sentimix-maqueta.webp", "Maqueta 3D del local con las cinco estaciones."],
+      ["assets/img/sentimix-sala-3.webp", "Recreación de la estación del olfato."],
+      ["assets/img/sentimix-sala-5.webp", "Recreación de la estación del gusto."],
+    ],
+    pending: ["Tu papel concreto en el equipo, la asignatura y el año."],
   },
   {
     slug: "emoi",
