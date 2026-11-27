@@ -47,8 +47,8 @@ window.PROJECTS = [
     meta: "Caso de estudio BPM: análisis del proceso de citas médicas del SERMAS con Canvas, e3value y Process Landscape, modelos BPMN AS-IS y TO-BE y cuatro mejoras propuestas.",
     summary:
       "Ciclo BPM completo sobre la gestión de citas en atención primaria: del Canvas y el e3value a los modelos AS-IS y TO-BE, con cuatro mejoras y cómo medirlas.",
-    cover: "assets/img/sermas/cover.webp",
-    coverAlt: "Fragmento del modelo BPMN TO-BE con las mejoras marcadas: mensaje automático, registro del número y devolución de llamada.",
+    cover: "assets/img/sermas-cover.webp",
+    coverAlt: "Portada de la web del proyecto de gestión de citas médicas.",
     tryAt: "smAsis",
     tryLabel: "Ver el BPMN",
     role: "Trabajo en grupo",
